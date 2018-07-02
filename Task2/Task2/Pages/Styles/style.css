@@ -58,7 +58,7 @@ body {
   width: 640px;
 }
 
-.login {
+.enterForm {
   position: relative;
   margin: 150px auto 0 auto;
   padding: 20px 20px 20px;
@@ -68,7 +68,7 @@ body {
   -webkit-box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
   box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
 }
-.login:before {
+.enterForm:before {
   content: '';
   position: absolute;
   top: -8px;
@@ -79,7 +79,7 @@ body {
   background: rgba(0, 0, 0, 0.08);
   border-radius: 4px;
 }
-.login h1 {
+.enterForm h1 {
   margin: -20px -20px 21px;
   line-height: 40px;
   font-size: 15px;
@@ -97,46 +97,46 @@ body {
   -webkit-box-shadow: 0 1px whitesmoke;
   box-shadow: 0 1px whitesmoke;
 }
-.login p {
+.enterForm p {
   margin: 20px 0 0;
 }
-.login p:first-child {
+.enterForm p:first-child {
   margin-top: 0;
 }
-.login input[type=text], .login input[type=password] {
+.enterForm input[type=text], .enterForm input[type=password] {
   width: 278px;
 }
-.login p.remember_me {
+.enterForm p.remember_me {
   float: left;
   line-height: 31px;
 }
-.login p.remember_me label {
+.enterForm p.remember_me label {
   font-size: 12px;
   color: #777;
   cursor: pointer;
 }
-.login p.remember_me input {
+.enterForm p.remember_me input {
   position: relative;
   bottom: 1px;
   margin-right: 4px;
   vertical-align: middle;
 }
-.login p.submit {
+.enterForm p.submit {
   text-align: right;
 }
 
-.login-help {
+.enterForm-help {
   margin: 20px 0;
   font-size: 11px;
   color: white;
   text-align: center;
   text-shadow: 0 1px #2a85a1;
 }
-.login-help a {
+.enterForm-help a {
   color: #cce7fa;
   text-decoration: none;
 }
-.login-help a:hover {
+.enterForm-help a:hover {
   text-decoration: underline;
 }
 
@@ -208,7 +208,6 @@ input[type=submit]:active {
   line-height: 34px;
 }
 
-/* Стили бара vladmaxi, можно удалить */
 .vladmaxi-top{
 	line-height: 24px;
 	font-size: 11px;
