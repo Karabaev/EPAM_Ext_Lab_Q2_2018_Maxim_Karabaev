@@ -284,11 +284,10 @@ button:hover {
 }
 .containerDetail {
     position: relative;
-    width: 30%;
+    width: 450px;
     margin: 40px auto 50px auto;
     padding: 20px 20px 20px;
     background: white;
-    min-width: 380px;
     border-radius: 10px;
     -webkit-box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
     justify-content: center;
@@ -319,7 +318,7 @@ button:hover {
 }
 .btnApplyEdit {
     position: relative;
-    right: 45%;
+    right: 35%;
 }
 .breadCrumbDiv {
     margin-left: 10px;
