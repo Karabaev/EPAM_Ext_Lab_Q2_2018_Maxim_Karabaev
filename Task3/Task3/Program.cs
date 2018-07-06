@@ -15,11 +15,11 @@ namespace Task3
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            Repository repository = new Repository();
             while (true)
             {
-                WriteLine(repository.Dialogs[DialogKeys.FirstDialog]);
-                WriteLine(repository.Dialogs[DialogKeys.MainMenu]);
+                WriteLine(Repository.Dialogs[DialogKeys.Separator]);
+                WriteLine(Repository.Dialogs[DialogKeys.FirstDialog]);
+                WriteLine(Repository.Dialogs[DialogKeys.MainMenu]);
                 Switcher switcher = Switcher.Default;
                 int intSwitcher;
                 bool exit = false;

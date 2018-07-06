@@ -45,6 +45,9 @@
     <Compile Include="Model\Repository.cs" />
     <Compile Include="Model\Task.cs" />
     <Compile Include="Model\Task3_10.cs" />
+    <Compile Include="Model\Task3_11.cs" />
+    <Compile Include="Model\Task3_12.cs" />
+    <Compile Include="Model\Task3_13.cs" />
     <Compile Include="Model\Task3_2.cs" />
     <Compile Include="Model\Task3_3.cs" />
     <Compile Include="Model\Task3_4.cs" />

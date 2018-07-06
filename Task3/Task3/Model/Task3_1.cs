@@ -74,7 +74,7 @@ namespace Task3.Model
         {
             if (x < 0 || y < 0)
                 return ErrorCode;
-            return (x * y) / 2;
+            return (x * y) / 2.0f;
         }
 
 

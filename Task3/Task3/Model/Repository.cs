@@ -8,6 +8,7 @@ namespace Task3.Model
 {
     enum DialogKeys
     {
+        Separator,
         FirstDialog,
         MainMenu
     }
@@ -25,11 +26,14 @@ namespace Task3.Model
         Task3_8 = 8,
         Task3_9 = 9,
         Task3_10 = 10,
-        Exit = 11
+        Task3_11 = 11,
+        Task3_12 = 12,
+        Task3_13 = 13,
+        Exit = 14
     }
-    class Repository
+    static class Repository
     {
-        Dictionary<DialogKeys, string> dialogs;
+        static Dictionary<DialogKeys, string> dialogs;
         static Dictionary<Switcher, string> taskNames;
         static List<Task> allTasks;
 
@@ -53,13 +57,16 @@ namespace Task3.Model
                     allTasks.Add(new Task3_8());
                     allTasks.Add(new Task3_9());
                     allTasks.Add(new Task3_10());
+                    allTasks.Add(new Task3_11());
+                    allTasks.Add(new Task3_12());
+                    allTasks.Add(new Task3_13());
                     return allTasks;
                 }
             }
         }
 
-        /*Справочники строк нужно загружать из файлов, но не хватит на это времени.*/
-        public Dictionary<DialogKeys, string> Dialogs
+        /*Справочники строк нужно загружать из файла, но не хватит на это времени.*/
+         static public Dictionary<DialogKeys, string> Dialogs
         {
             get
             {
@@ -68,6 +75,7 @@ namespace Task3.Model
                 else
                 {
                     dialogs = new Dictionary<DialogKeys, string>();
+                    dialogs.Add(DialogKeys.Separator, "------------------------------------");
                     dialogs.Add(DialogKeys.FirstDialog, "Choose your action:");
                     
                     string actionString = string.Empty;
@@ -98,6 +106,9 @@ namespace Task3.Model
                     taskNames.Add(Switcher.Task3_8, "Three-dimensional array");
                     taskNames.Add(Switcher.Task3_9, "Sum positive elements");
                     taskNames.Add(Switcher.Task3_10, "Even positions");
+                    taskNames.Add(Switcher.Task3_11, "Average lenght ot whe words");
+                    taskNames.Add(Switcher.Task3_12, "Some task by strings");
+                    taskNames.Add(Switcher.Task3_13, "Operations with strings");
                     return taskNames;
                 }
             }

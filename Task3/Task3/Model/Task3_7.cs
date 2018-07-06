@@ -33,7 +33,7 @@
             WriteLine("Display original massive? {0} / {1}", YesDialog, NotDialog);
             /*Я решил не обрабатывать случаи, когда пользователь вводит не y или n.
             А просто считать за n все вводимые строки, кроме y.*/
-            if (ReadLine() == YesDialog)
+            if (ReadLine().ToLower() == YesDialog)
                 DisplayMassive();
             GetMinMaxElements();
             Sort();

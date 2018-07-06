@@ -30,7 +30,7 @@
         {
             MassiveInit();
             WriteLine("Display original massive? {0} / {1}", YesDialog, NotDialog);
-            if (ReadLine() == YesDialog)
+            if (ReadLine().ToLower() == YesDialog)
                 DisplayMassive();
             SumPositiveNumbers();
         }

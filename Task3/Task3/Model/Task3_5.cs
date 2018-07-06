@@ -30,7 +30,7 @@
             WriteLine("Display operands? {0} / {1}", YesDialog, NotDialog);
             /*Я решил не обрабатывать случаи, когда пользователь вводит не y или n.
             А просто считать за n все вводимые строки, кроме y.*/
-            bool isDisplayOpers = ReadLine() == YesDialog ? true : false;
+            bool isDisplayOpers = ReadLine().ToLower() == YesDialog ? true : false;
             for (int i = 0; i < maxNumber; i++)
             {
                 if (i % 3 == 0 | i % 5 == 0)

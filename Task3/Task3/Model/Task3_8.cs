@@ -21,7 +21,7 @@
             WriteLine("Display modified massive? {0} / {1}", YesDialog, NotDialog);
             /*Я решил не обрабатывать случаи, когда пользователь вводит не y или n.
             А просто считать за n все вводимые варианты, кроме y.*/
-            if (ReadLine() == YesDialog)
+            if (ReadLine().ToLower() == YesDialog)
                 DisplayMassive();
         }
         /// <summary>
@@ -32,7 +32,7 @@
         {
             MassiveInit();
             WriteLine("Display original massive? {0} / {1}", YesDialog, NotDialog);
-            if (ReadLine() == YesDialog)
+            if (ReadLine().ToLower() == YesDialog)
                 DisplayMassive();
             ReplacePositiveNumbers();
         }
