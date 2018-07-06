@@ -21,12 +21,9 @@ namespace Task3
                 WriteLine(Repository.Dialogs[DialogKeys.FirstDialog]);
                 WriteLine(Repository.Dialogs[DialogKeys.MainMenu]);
                 Switcher switcher = Switcher.Default;
-                int intSwitcher;
                 bool exit = false;
-                if (!int.TryParse(ReadLine(), out intSwitcher))
-                {
+                if (!int.TryParse(ReadLine(), out int intSwitcher))
                     switcher = Switcher.Error;
-                }
                 switcher = (Switcher)intSwitcher;
                 Switch(switcher, out exit);
                 if (exit)
@@ -34,7 +31,7 @@ namespace Task3
             }
         }
         /// <summary>
-        /// Обработка выбора вв
+        /// Обработка выбора пункта меню.
         /// </summary>
         /// <param name="switcher"></param>
         /// <param name="exit"></param>
