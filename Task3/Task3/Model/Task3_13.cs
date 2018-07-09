@@ -11,7 +11,7 @@ namespace Task3.Model
     {
         private long elapsedTicksToString = 0, elapsedTicksToStringBuilder = 0;
         const int n = 100000;
-        const string pathToFile = @"C:\Проекты\EPAM\Task3\Task3\Log.log";
+        const string pathToFile = @"C:\Проекты\EPAM\Task3\Task3\Log.log";//todo pn относительный путь будет лучше
         private string stringLogOut, stringBuilderLogOut, averageStringLogOut, averageStringBuilderogOut;
         uint testCount = 1;
         float elapsedSecondsForAllTests = 0;
