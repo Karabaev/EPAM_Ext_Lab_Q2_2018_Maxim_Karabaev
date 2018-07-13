@@ -27,19 +27,6 @@ namespace Model
         /// Список тем в разделе
         /// </summary>
         public List<Topic> TopicList { get; set; }
-        /// <summary>
-        /// Записать состояние сущности в базу
-        /// </summary>
-        public override void Write()
-        {
-            throw new NotImplementedException();
-        }
-        /// <summary>
-        /// Считать состояние сущности из базы
-        /// </summary>
-        public override void Read()
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

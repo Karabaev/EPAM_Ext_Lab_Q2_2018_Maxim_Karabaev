@@ -23,19 +23,6 @@ namespace Model
         /// Тело сообщения
         /// </summary>
         public string Content { get; set; }
-        /// <summary>
-        /// Записать состояние сущности в базу
-        /// </summary>
-        public override void Write()
-        {
-            throw new NotImplementedException();
-        }
-        /// <summary>
-        /// Считать состояние сущности из базы
-        /// </summary>
-        public override void Read()
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

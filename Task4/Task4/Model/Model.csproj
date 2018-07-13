@@ -41,20 +41,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Entity.cs" />
-    <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Entities\Message.cs" />
     <Compile Include="Exceptions\NullIDException.cs" />
-    <Compile Include="Repository.cs" />
+    <Compile Include="Repository\MessageRepository.cs" />
+    <Compile Include="Repository\Repository.cs" />
     <Compile Include="Entities\Right.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\Section.cs" />
     <Compile Include="Entities\Topic.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\RightRepository.cs" />
+    <Compile Include="Repository\RoleRepository.cs" />
+    <Compile Include="Repository\SectionRepository.cs" />
+    <Compile Include="Repository\TopicRepository.cs" />
+    <Compile Include="Repository\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="Diagram\Diagram.cd" />
+    <None Include="Diagram\ModelDiagram.cd" />
+    <None Include="Diagram\RepositoryDiagram.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
