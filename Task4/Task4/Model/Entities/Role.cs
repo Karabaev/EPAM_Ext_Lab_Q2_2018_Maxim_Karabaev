@@ -23,20 +23,5 @@ namespace Model
         /// Список пользователей, относящихся к роли
         /// </summary>
         public List<User> Users { get; set; }
-
-        /// <summary>
-        /// Записать состояние сущности в базу
-        /// </summary>
-        public override void Write()
-        {
-            throw new NotImplementedException();
-        }
-        /// <summary>
-        /// Считать состояние сущности из базы
-        /// </summary>
-        public override void Read()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
