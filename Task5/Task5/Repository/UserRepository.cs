@@ -55,7 +55,7 @@ namespace Task5.Repository
                 return true;
             }
 
-            Users.Add(entity as User);
+            Users.Add(newUser);
             return true;
         }
     }
