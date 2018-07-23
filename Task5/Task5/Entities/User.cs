@@ -38,7 +38,6 @@ namespace Task5
                     UserRole.Equals(other.UserRole) && 
                     (IsBanned == other.IsBanned) &&
                     (PublicName == other.PublicName);
-            //return GetHashCode() == other.GetHashCode();
         }
         public override int GetHashCode()
         {
@@ -56,6 +55,17 @@ namespace Task5
         public override string ToString()
         {
             return string.Format("ID: {0}, Name: {1}", ID, PublicName);
+        }
+        public override void Reinitialization(Entity other)
+        {
+            User newUser = other as User;
+            if (newUser == null)
+                return;
+            Login = newUser.Login;
+            PasswordHash = newUser.PasswordHash;
+            PublicName = newUser.PublicName;
+            UserRole = newUser.UserRole;
+            IsBanned = newUser.IsBanned;
         }
     }
 }

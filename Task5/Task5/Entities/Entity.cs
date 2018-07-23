@@ -17,5 +17,6 @@ namespace Task5
 
         public abstract override bool Equals(object obj);
         public abstract override int GetHashCode();
+        public abstract void Reinitialization(Entity other);
     }
 }

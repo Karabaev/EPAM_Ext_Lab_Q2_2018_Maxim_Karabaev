@@ -19,5 +19,10 @@ namespace Task5
             result = (int)ID ^ 2; // болванка, пока не придумаю поля класса
             return result;
         }
+
+        public override void Reinitialization(Entity other)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

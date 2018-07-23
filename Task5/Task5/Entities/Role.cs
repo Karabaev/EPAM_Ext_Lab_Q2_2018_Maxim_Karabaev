@@ -28,7 +28,8 @@ namespace Task5
         {
             Role other = obj as Role;
             if (other == null) return false;
-            return GetHashCode() == other.GetHashCode();
+            // return (Name == other.Name) && Permissions.Equals(other.Permissions);
+            return (Name == other.Name) && (Permissions.Count == other.Permissions.Count); // упрощенная реализация для тестов
         }
         public override int GetHashCode()
         {
@@ -42,6 +43,11 @@ namespace Task5
                 Console.WriteLine(ex.Message);
             }
             return result;
+        }
+
+        public override void Reinitialization(Entity other)
+        {
+            throw new NotImplementedException();
         }
     }
 }

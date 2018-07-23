@@ -49,20 +49,27 @@ namespace ReposTest
                     Assert.Fail(EntriesNotMutchErrorText);
             }
         }
-
+        /// <summary>
+        /// Сравнение элемента коллекции, полученного с помощью метода GetEntity с исходным элементом.
+        /// </summary>
         [TestMethod]
         public void GetEntityEqualsToOriginal()
         {
             UserRepository repository = new UserRepository();
             List<User> users = repository.Users;
-
             User resultUser = repository.GetEntity<User>(ExistingID);
-
+            Assert.AreEqual(repository.Users.Where(u => u.ID == ExistingID).FirstOrDefault(), resultUser);
         }
-
-
-
-
+        /// <summary>
+        /// Проверка результата метода GetEntity на null, в случае передачи ID, которого нет в базе
+        /// </summary>
+        [TestMethod]
+        public void GetEntityWithNotExistingID()
+        {
+            UserRepository repository = new UserRepository();
+            User resultUser = repository.GetEntity<User>(NotExistindID);
+            Assert.IsNull(resultUser);
+        }
 
         /// <summary>
         /// Проверка результата удаления Пользователя из базы.
@@ -108,6 +115,112 @@ namespace ReposTest
         {
             UserRepository repository = new UserRepository();
             Assert.IsFalse(repository.Remove(NotExistindID));
+        }
+
+        /// <summary>
+        /// Проверка метода Save при передачи null сущности для сохранения
+        /// </summary>
+        [TestMethod]
+        public void SaveNullEntity()
+        {
+            UserRepository repository = new UserRepository();
+            Assert.IsFalse(repository.SaveEntity<User>(null));
+        }
+        /// <summary>
+        /// Проверка Save при передачи записи, которая уже есть в базе
+        /// </summary>
+        [TestMethod]
+        public void SaveContainsEntity()
+        {
+            UserRepository repository = new UserRepository();
+            User user = repository.Users[0];
+            User newUser = new User();
+
+            newUser.ID = user.ID;
+            newUser.Reinitialization(user);
+            Assert.IsFalse(repository.SaveEntity(newUser));
+        }
+        /// <summary>
+        /// Проверка метода Equals класса User
+        /// </summary>
+        [TestMethod]
+        public void UserEquals()
+        {
+            User u1 = new User
+            {
+                ID = 50,
+                IsBanned = false,
+                Login = "u1",
+                PasswordHash = "u1",
+                PublicName = "u1",
+                UserRole = new Role()
+            };
+            User u2 = new User
+            {
+                ID = 50,
+                IsBanned = false,
+                Login = "u1",
+                PasswordHash = "u1",
+                PublicName = "u1",
+                UserRole = new Role()
+            };
+            Assert.IsTrue(u1.Equals(u2));
+        }
+        /// <summary>
+        /// Проверка метода Equals класса User
+        /// </summary>
+        [TestMethod]
+        public void UserNotEquals()
+        {
+            User u1 = new User
+            {
+                ID = 50,
+                IsBanned = false,
+                Login = "u1",
+                PasswordHash = "u1",
+                PublicName = "u1",
+                UserRole = new Role()
+            };
+            User u2 = new User
+            {
+                ID = 51,
+                IsBanned = false,
+                Login = "u2",
+                PasswordHash = "u2",
+                PublicName = "u2",
+                UserRole = new Role()
+            };
+            Assert.IsFalse(u1.Equals(u2));
+        }
+        
+        /// <summary>
+        /// List.Contains ищет по ссылке или по Equals ?
+        /// </summary>
+        [TestMethod]
+        public void ListContains()
+        {
+            User u1 = new User
+            {
+                ID = 50,
+                IsBanned = false,
+                Login = "u1",
+                PasswordHash = "u1",
+                PublicName = "u1",
+                UserRole = new Role()
+            };
+            List<User> users = new List<User>();
+            users.Add(u1);
+            User u2 = new User
+            {
+                ID = 50,
+                IsBanned = false,
+                Login = "u1",
+                PasswordHash = "u1",
+                PublicName = "u1",
+                UserRole = new Role()
+            };
+
+            Assert.IsTrue(users.Contains(u2));
         }
     }
 }

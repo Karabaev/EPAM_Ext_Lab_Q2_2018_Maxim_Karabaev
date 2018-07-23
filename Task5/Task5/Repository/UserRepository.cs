@@ -43,9 +43,20 @@ namespace Task5.Repository
 
         public override bool SaveEntity<T>(T entity)
         {
-            int startCount = Users.Count;
+            User newUser = entity as User;
+            if (newUser == null) return false;
+            if (Users.Contains(newUser))
+                return false;
+            // если запись с таким ID уже есть в базе, то изменить ее поля
+            User user = Users.Where(u => u.ID == newUser.ID).FirstOrDefault();
+            if(user != null)
+            {
+                user.Reinitialization(newUser);
+                return true;
+            }
+
             Users.Add(entity as User);
-            return Users.Count > startCount ? true : false;
+            return true;
         }
     }
 }

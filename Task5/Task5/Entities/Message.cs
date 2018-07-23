@@ -50,5 +50,9 @@ namespace Task5
             return result;
         }
 
+        public override void Reinitialization(Entity other)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
