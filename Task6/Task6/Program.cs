@@ -11,15 +11,30 @@ namespace Task6
     {
         static void Main(string[] args)
         {
-            Task6_1 task6_1 = new Task6_1();
-            task6_1.DisplayResult();
+            int switcher = -1;
+            WriteLine("Enter number: 1 - Task 6.1, 2 - Task 6.2");
+            try
+            {
+                switcher = int.Parse(ReadLine());
+            }
+            catch (FormatException)
+            {
+                WriteLine("Enter please integer value");
+            }
 
-
-            Task6_2 task6_2 = new Task6_2();
-            task6_2.Start();
-
-
-
+            switch (switcher)
+            {
+                case 1:
+                    Task6_1 task6_1 = new Task6_1();
+                    task6_1.DisplayResult();
+                    break;
+                case 2:
+                    Task6_2 task6_2 = new Task6_2();
+                    task6_2.Start();
+                    break;
+                default:
+                    break;
+            }
 
             ReadLine();
         }

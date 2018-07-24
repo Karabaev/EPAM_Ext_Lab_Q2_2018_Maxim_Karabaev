@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using static System.Console;
 namespace Task6.Tasks.Model
 {
-    
-    class Person
+    public class Person
     {
         public string Name { get; set; }
         private Data data;
@@ -16,20 +15,27 @@ namespace Task6.Tasks.Model
         {
             this.data = data;
             Name = name;
+            data.OnComing += Greetings;
+            data.OnLeft += Goodbye;
         }
-
         public void Greetings(Person other)
         {
-            WriteLine("{0}, {1} ", data.GreetingStrings[data.CurrentDayPart], other);
+            if(other != this)
+                WriteLine("{0}, {1}! - said {2} ", data.GreetingStrings[data.CurrentDayPart], other, Name);
         }
         public void Goodbye(Person other)
         {
-            WriteLine("Goodbye, {0}", other);
+            if (other != this)
+                WriteLine("Goodbye, {0}! - said {1}", other, Name);
         }
-
         public override string ToString()
         {
             return Name;
+        }
+
+        public void SomeEvent()
+        {
+
         }
     }
 }

@@ -54,6 +54,8 @@ namespace Task6.Tasks
         }
 		public void DisplayResult()
         {
+            WriteLine("Task 6.1.");
+            WriteLine("/////////////////////////////////");
             WriteLine("Original array:\n");
             foreach (var item in stringArray)
                 WriteLine(item);
@@ -61,6 +63,7 @@ namespace Task6.Tasks
             WriteLine("\nSorted array:\n");
             foreach (var item in stringArray)
                 WriteLine(item);
+            
         }
 
     }

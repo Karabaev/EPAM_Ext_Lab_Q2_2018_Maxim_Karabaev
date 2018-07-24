@@ -45,6 +45,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tasks\Model\Data.cs" />
+    <Compile Include="Tasks\Model\Office.cs" />
     <Compile Include="Tasks\Model\Person.cs" />
     <Compile Include="Tasks\Model\Time.cs" />
     <Compile Include="Tasks\Task6_2.cs" />
