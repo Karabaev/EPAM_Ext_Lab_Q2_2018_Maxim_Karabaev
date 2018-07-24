@@ -7,28 +7,33 @@ using System.Threading;
 using static System.Console;
 namespace Task6.Tasks.Model
 {
+    /// <summary>
+    /// Времена суток.
+    /// </summary>
     public enum DayPart
     {
+        Default,
         Morning,
         Day,
         Evening
     }
     public class Data
     {
-        private const int SecondStep = 20;
-        private const int DelayBetweenTimerTicks = 20;
-        private const int ProbabilityOccurrence = 80;
 
-        public Dictionary<DayPart, string> GreetingStrings = new Dictionary<DayPart, string>();
-        public DayPart currentDayPart;
+        private const int SecondStep = 20; // сколько секунд проходит за одн тик таймера
+        private const int DelayBetweenTimerTicks = 20; // сколько мс реального времени проходит между тиками таймера
+        private const int ProbabilityOccurrence = 80; // шанс возникновения события
+
+        public Dictionary<DayPart, string> GreetingStrings = new Dictionary<DayPart, string>(); // строки приветсвтвия, в зависимости от времени суток
+        public DayPart currentDayPart; // актуальное время суток
         
-        private Time currentTime, timeMorning, timeEvening, startTime = new Time(9, 0, 0);
-        private Thread timerThread;
+        private Time currentTime, timeMorning, timeEvening, startTime = new Time(9, 0, 0); // структуры, актуальное время, утреннее время, вечернее, и начальное
+        private Thread timerThread; // поток для таймера
 
-        List<Person> people = new List<Person>();
+        List<Person> people = new List<Person>(); // список работников офиса
 
-        private Office office;
-        public delegate void Coming(Person person);
+        private Office office; // офис
+        public delegate void Coming(Person person); 
         public delegate void Left(Person person);
 
         public event Coming OnComing;
@@ -37,13 +42,15 @@ namespace Task6.Tasks.Model
         private Random rand = new Random();
         public Data()
         {
-            GreetingStrings.Add(DayPart.Morning, "Good morning.");
-            GreetingStrings.Add(DayPart.Day, "Good day.");
-            GreetingStrings.Add(DayPart.Evening, "Good evening.");
+            GreetingStrings.Add(DayPart.Morning, "Good morning");
+            GreetingStrings.Add(DayPart.Day, "Good day");
+            GreetingStrings.Add(DayPart.Evening, "Good evening");
             
-            timeMorning = new Time(12, 0, 0);
-            timeEvening = new Time(17, 0, 0);
+            timeMorning = new Time(12, 0, 0); // время утра
+            timeEvening = new Time(17, 0, 0); // время вечера
 
+            CurrentDayPart = DayPart.Default; // время суток установить в дефолтное значение
+            // выбор времени суток в зависимости от времени
             if (startTime < timeMorning)
                 CurrentDayPart = DayPart.Morning;
             else
@@ -54,27 +61,34 @@ namespace Task6.Tasks.Model
                     CurrentDayPart = DayPart.Day;
             }
 
-            //в конструкторах идет подпись к событиям, потому важен порядок инициализации ссылок, офис должен стоять раньше
+            //в конструкторах идет подпись на события, потому важен порядок инициализации ссылок, офис должен стоять раньше
             office = new Office(this);
             people.Add(new Person(this, "Maxim"));
             people.Add(new Person(this, "Roman"));
             people.Add(new Person(this, "Georgiy"));
             people.Add(new Person(this, "Artem"));
             people.Add(new Person(this, "Evgeniy"));
-
-            
         }
+        /// <summary>
+        /// Запуск таймера
+        /// </summary>
         public void StartTimer()
         {
             timerThread = new Thread(Timer);
             timerThread.Start();
         }
+        /// <summary>
+        /// Остановка таймера
+        /// </summary>
         public void StopTimer()
         {
             timerThread.Abort();
             timerThread = null;
         }
 
+        /// <summary>
+        /// Метод таймера
+        /// </summary>
         private void Timer()
         {
             currentTime = new Time(startTime);
@@ -101,22 +115,19 @@ namespace Task6.Tasks.Model
                         if (currentTime.Hours > 23)
                             currentTime.Hours = 0;
 
-                        int value = rand.Next(0, 100);
-                        if(value <= ProbabilityOccurrence) // кто-то пришел или ушел
+                        // а произойдет ли событие?
+                        int value = rand.Next(0, 100); // шанс возникновения события указан в ProbabilityOccurrence
+                        if (value <= ProbabilityOccurrence) // кто-то пришел или ушел
                         {
-                            value = rand.Next(0, people.Count - 1);
+                            value = rand.Next(0, people.Count - 1); // а кто пришел/ушел?
                             if(!office.peopleInTheOffice.Contains(people[value]))
-                            {
                                 OnComing(people[value]);
-                            }
                             else
-                            {
                                 OnLeft(people[value]);
-                            }
                         }
                     }
                 }
-                Thread.Sleep(DelayBetweenTimerTicks);
+                Thread.Sleep(DelayBetweenTimerTicks); // задержка между тиками
             }
         }
         public DayPart CurrentDayPart

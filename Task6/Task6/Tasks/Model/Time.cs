@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 namespace Task6.Tasks.Model
 {
+    /// <summary>
+    /// Упрощенная структура для хранения времени.
+    /// </summary>
     struct Time
     {
         public int Seconds;

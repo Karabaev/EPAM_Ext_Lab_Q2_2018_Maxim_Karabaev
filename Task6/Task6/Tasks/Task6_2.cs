@@ -9,13 +9,14 @@ namespace Task6.Tasks
 {
     class Task6_2
     {
-        static Data data = new Data();
+        static Data data;
         
 
         public Task6_2()
         {
             WriteLine("Task 6.2.");
             WriteLine("/////////////////////////////////");
+            data = new Data();
         }
 
         public void Start()

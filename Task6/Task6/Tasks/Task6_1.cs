@@ -20,6 +20,11 @@ namespace Task6.Tasks
             "ABCD"
         };
         public delegate void SortMethod();
+        /// <summary>
+        /// Вспомагательный метод для сортировки пузырьком
+        /// </summary>
+        /// <param name="str1"></param>
+        /// <param name="str2"></param>
 		private void SwapStrings(ref string str1,ref string str2)
         {
             string buffer = string.Empty;
@@ -27,6 +32,9 @@ namespace Task6.Tasks
             str1 = str2;
             str2 = buffer;
         }
+        /// <summary>
+        /// Сортировка пузыьком
+        /// </summary>
 		private void Bubble()
         {
             for (int i = 0; i < stringArray.Length; i++)
@@ -48,10 +56,18 @@ namespace Task6.Tasks
                 }
             }
         }
+        /// <summary>
+        /// Сортировка
+        /// </summary>
+        /// <param name="method">Метод сортировки</param>
 		private void Sort(SortMethod method)
         {
             method();
         }
+
+        /// <summary>
+        /// Сортировка и вывод результат на экран
+        /// </summary>
 		public void DisplayResult()
         {
             WriteLine("Task 6.1.");
@@ -63,7 +79,6 @@ namespace Task6.Tasks
             WriteLine("\nSorted array:\n");
             foreach (var item in stringArray)
                 WriteLine(item);
-            
         }
 
     }
