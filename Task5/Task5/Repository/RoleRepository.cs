@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 namespace Task5.Repository
 {
-    class RoleRepository : Repository
+    public class RoleRepository : Repository
     {
         public List<Role> Roles { get; set; }
 
@@ -57,9 +57,19 @@ namespace Task5.Repository
 
         public override bool SaveEntity<T>(T entity)
         {
-            int startCount = Roles.Count;
-            Roles.Add(entity as Role);
-            return Roles.Count > startCount ? true : false;
+            Role newRole = entity as Role;
+            if (newRole == null) return false;
+            if (Roles.Contains(newRole))
+                return false;
+            // если запись с таким ID уже есть в базе, то изменить ее поля
+            Role role = Roles.Where(u => u.ID == newRole.ID).FirstOrDefault();
+            if (role != null)
+            {
+                role.Reinitialization(newRole);
+                return true;
+            }
+            Roles.Add(newRole);
+            return true;
         }
     }
 }

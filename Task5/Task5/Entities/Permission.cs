@@ -24,7 +24,7 @@ namespace Task5
         {
             Permission other = obj as Permission;
             if (other == null) return false;
-            return GetHashCode() == other.GetHashCode();
+            return (ID == other.ID) && (Name == other.Name) && (Description == other.Description);
         }
         public override int GetHashCode()
         {
@@ -42,7 +42,10 @@ namespace Task5
 
         public override void Reinitialization(Entity other)
         {
-            throw new NotImplementedException();
+            Permission newPerm = other as Permission;
+            if (newPerm == null) return;
+            Name = newPerm.Name;
+            Description = newPerm.Description;
         }
     }
 }

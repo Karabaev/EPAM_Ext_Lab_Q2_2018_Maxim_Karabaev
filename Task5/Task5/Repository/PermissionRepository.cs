@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Task5.Repository
 {
-    class PermissionRepository : Repository
+    public class PermissionRepository : Repository
     {
         public List<Permission> Permissions { get; set; }
 
@@ -39,9 +39,19 @@ namespace Task5.Repository
 
         public override bool SaveEntity<T>(T entity)
         {
-            int startCount = Permissions.Count;
-            Permissions.Add(entity as Permission);
-            return Permissions.Count > startCount ? true : false;
+            Permission newPerm = entity as Permission;
+            if (newPerm == null) return false;
+            if (Permissions.Contains(newPerm))
+                return false;
+            // если запись с таким ID уже есть в базе, то изменить ее поля
+            Permission perm = Permissions.Where(u => u.ID == newPerm.ID).FirstOrDefault();
+            if (perm != null)
+            {
+                perm.Reinitialization(newPerm);
+                return true;
+            }
+            Permissions.Add(newPerm);
+            return true;
         }
     }
 }

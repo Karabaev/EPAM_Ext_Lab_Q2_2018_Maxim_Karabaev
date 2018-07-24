@@ -4,12 +4,11 @@ using Task5;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static System.Console;
 
 namespace ReposTest
 {
     [TestClass]
-    public class UserRepositoryTest
+    public class UserEntityAndRepositoryTest
     {
         private const string EntriesNotMutchErrorText = "Collection entries don't match.";
         private const uint ExistingID = 1;
@@ -144,32 +143,6 @@ namespace ReposTest
         /// Проверка метода Equals класса User
         /// </summary>
         [TestMethod]
-        public void UserEquals()
-        {
-            User u1 = new User
-            {
-                ID = 50,
-                IsBanned = false,
-                Login = "u1",
-                PasswordHash = "u1",
-                PublicName = "u1",
-                UserRole = new Role()
-            };
-            User u2 = new User
-            {
-                ID = 50,
-                IsBanned = false,
-                Login = "u1",
-                PasswordHash = "u1",
-                PublicName = "u1",
-                UserRole = new Role()
-            };
-            Assert.IsTrue(u1.Equals(u2));
-        }
-        /// <summary>
-        /// Проверка метода Equals класса User
-        /// </summary>
-        [TestMethod]
         public void UserNotEquals()
         {
             User u1 = new User
@@ -194,11 +167,12 @@ namespace ReposTest
         }
         
         /// <summary>
-        /// List.Contains ищет по ссылке или по Equals ?
+        /// List.Contains ищет по ссылке или по Equals ? По перегрузке Equals.
         /// </summary>
         [TestMethod]
         public void ListContains()
         {
+            List<Permission> perms = new List<Permission>();
             User u1 = new User
             {
                 ID = 50,
@@ -206,7 +180,7 @@ namespace ReposTest
                 Login = "u1",
                 PasswordHash = "u1",
                 PublicName = "u1",
-                UserRole = new Role()
+                UserRole = new Role { ID = 0, Name = "ur1", Permissions = perms }
             };
             List<User> users = new List<User>();
             users.Add(u1);
@@ -217,7 +191,7 @@ namespace ReposTest
                 Login = "u1",
                 PasswordHash = "u1",
                 PublicName = "u1",
-                UserRole = new Role()
+                UserRole = new Role { ID = 0, Name = "ur1", Permissions = perms }
             };
 
             Assert.IsTrue(users.Contains(u2));

@@ -32,7 +32,11 @@ namespace Task5
         {
             Section other = obj as Section;
             if (other == null) return false;
-            return GetHashCode() == other.GetHashCode();
+            return (ID == other.ID) &&
+                (Name == other.Name) &&
+                (Description == other.Description) &&
+                (Link == other.Link) &&
+                TopicList.Equals(other.TopicList);
         }
         public override int GetHashCode()
         {
@@ -50,7 +54,12 @@ namespace Task5
 
         public override void Reinitialization(Entity other)
         {
-            throw new NotImplementedException();
+            Section newSection = other as Section;
+            if (newSection == null) return;
+            Name = newSection.Name;
+            Description = newSection.Description;
+            Link = newSection.Link;
+            TopicList = newSection.TopicList;
         }
     }
 }

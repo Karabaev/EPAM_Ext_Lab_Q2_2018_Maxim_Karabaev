@@ -34,7 +34,11 @@ namespace Task5
         {
             Message other = obj as Message;
             if (other == null) return false;
-            return GetHashCode() == other.GetHashCode();
+            return (ID == other.ID) && 
+                (Creator == other.Creator) && 
+                (CreationDate == other.CreationDate) && 
+                (Content == other.Content) && 
+                (Extra == other.Extra);
         }
         public override int GetHashCode()
         {
@@ -52,7 +56,12 @@ namespace Task5
 
         public override void Reinitialization(Entity other)
         {
-            throw new NotImplementedException();
+            Message message = other as Message;
+            if (message == null) return;
+            Creator = message.Creator;
+            CreationDate = message.CreationDate;
+            Content = message.Content;
+            Extra = message.Extra;
         }
     }
 }

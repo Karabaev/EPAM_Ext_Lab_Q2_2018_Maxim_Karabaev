@@ -17,6 +17,6 @@ namespace Task5
 
         public abstract override bool Equals(object obj);
         public abstract override int GetHashCode();
-        public abstract void Reinitialization(Entity other);
+        public abstract void Reinitialization(Entity other); // надо будет сделать возврщаемое значение bool, чтоб отслеживать ошибки в методе
     }
 }
