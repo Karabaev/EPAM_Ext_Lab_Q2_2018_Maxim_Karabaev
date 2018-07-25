@@ -35,8 +35,8 @@ namespace Task6.Tasks
         /// <summary>
         /// Сортировка пузыьком
         /// </summary>
-		private void Bubble()
-        {
+		private void Bubble()//todo pn !!! использовать другую сортировку
+		{
             for (int i = 0; i < stringArray.Length; i++)
             {
                 for (int j = i + 1; j < stringArray.Length; j++)

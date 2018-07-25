@@ -95,12 +95,12 @@ namespace Task6.Tasks.Model
             while(true)
             {
                 currentTime.Seconds += SecondStep;
-                if (currentTime.Seconds > 59)
+                if (currentTime.Seconds > 59)//todo pn hardcode
                 {
                     currentTime.Seconds = 0;
                     currentTime.Minutes++;
-                    if(currentTime.Minutes > 59)
-                    {
+                    if(currentTime.Minutes > 59)//todo pn hardcode
+					{
                         currentTime.Minutes = 0;
                         currentTime.Hours++;
                         if (currentTime < timeMorning)
@@ -112,12 +112,12 @@ namespace Task6.Tasks.Model
                             else
                                 CurrentDayPart = DayPart.Day;
                         }
-                        if (currentTime.Hours > 23)
-                            currentTime.Hours = 0;
+                        if (currentTime.Hours > 23)//todo pn hardcode
+							currentTime.Hours = 0;
 
                         // а произойдет ли событие?
-                        int value = rand.Next(0, 100); // шанс возникновения события указан в ProbabilityOccurrence
-                        if (value <= ProbabilityOccurrence) // кто-то пришел или ушел
+                        int value = rand.Next(0, 100); // шанс возникновения события указан в ProbabilityOccurrence //todo pn hardcode
+						if (value <= ProbabilityOccurrence) // кто-то пришел или ушел
                         {
                             value = rand.Next(0, people.Count - 1); // а кто пришел/ушел?
                             if(!office.peopleInTheOffice.Contains(people[value]))
