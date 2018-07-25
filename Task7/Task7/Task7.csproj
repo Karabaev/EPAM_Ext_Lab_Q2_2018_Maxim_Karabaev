@@ -48,6 +48,8 @@
     <Compile Include="Tasks\Task7_1\Task7_1.cs" />
     <Compile Include="Tasks\Task7_2\StringHelper.cs" />
     <Compile Include="Tasks\Task7_2\Task7_2.cs" />
+    <Compile Include="Tasks\Task7_3\Logger.cs" />
+    <Compile Include="Tasks\Task7_3\Task7_3.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
