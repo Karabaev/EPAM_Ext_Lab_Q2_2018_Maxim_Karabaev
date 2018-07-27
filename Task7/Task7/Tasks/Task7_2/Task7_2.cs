@@ -1,8 +1,8 @@
-﻿
-namespace Task7.Tasks.Task7_2
+﻿namespace Task7.Tasks.Task7_2
 {
     using static System.Console;
-    class Task7_2
+
+    internal class Task7_2
     {
         private string[] strs =
         {
@@ -19,11 +19,12 @@ namespace Task7.Tasks.Task7_2
         public Task7_2()
         {
             WriteLine("Task7.2\n===================================================");
-            Result();
+            this.Result();
         }
+
         private void Result()
         {
-            foreach (var item in strs)
+            foreach (var item in this.strs)
             {
                 WriteLine("\"{0}\", is positive integer: {1}", item, item.IsPositiveNumber());
             }

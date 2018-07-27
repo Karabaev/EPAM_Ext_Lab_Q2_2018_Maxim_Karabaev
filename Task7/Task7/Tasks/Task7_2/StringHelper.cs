@@ -6,9 +6,12 @@
         {
             foreach (char item in str)
             {
-                if(!char.IsDigit(item))
+                if (!char.IsDigit(item))
+                {
                     return false;
+                }
             }
+
             return true;
         }
     }
