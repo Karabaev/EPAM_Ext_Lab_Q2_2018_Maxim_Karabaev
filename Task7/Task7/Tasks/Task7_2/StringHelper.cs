@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Task7.Tasks.Task7_2
+﻿namespace Task7.Tasks.Task7_2
 {
     public static class StringHelper
     {

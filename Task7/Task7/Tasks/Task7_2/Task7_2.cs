@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Console;
+﻿
 namespace Task7.Tasks.Task7_2
 {
+    using static System.Console;
     class Task7_2
     {
         private string[] strs =
@@ -16,12 +12,13 @@ namespace Task7.Tasks.Task7_2
              "fref",
              "1,3efsffs",
              "5436",
-             "-5436"
+             "-5436",
+             "546.2445"
         };
 
         public Task7_2()
         {
-            Console.WriteLine("Task7.2\n===================================================");
+            WriteLine("Task7.2\n===================================================");
             Result();
         }
         private void Result()

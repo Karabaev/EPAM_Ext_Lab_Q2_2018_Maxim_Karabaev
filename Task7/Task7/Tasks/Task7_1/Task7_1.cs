@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Task7.Tasks.Task7_1
+﻿namespace Task7.Tasks.Task7_1
 {
+    using System;
     class Task7_1
     {
         private int[] array1 = { 0, 1, 2, 4, 5, 6 };
