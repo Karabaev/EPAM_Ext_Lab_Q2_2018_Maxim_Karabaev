@@ -179,6 +179,9 @@
     <Folder Include="Scripts\Task8_11" />
     <Folder Include="Scripts\Task8_12" />
     <Folder Include="Scripts\Task8_13" />
+    <Folder Include="Scripts\Task8_14" />
+    <Folder Include="Scripts\Task8_14\Tables" />
+    <Folder Include="Scripts\Task8_14\Queries" />
   </ItemGroup>
   <ItemGroup>
     <BuildContributorArgument Include="OutDir=$(OutDir)" />
@@ -532,6 +535,17 @@
     <Build Include="Scripts\Task8_13\Task 8_13_1.sql" />
     <Build Include="Scripts\Task8_13\Task 8_13_2.sql" />
     <Build Include="Scripts\Task8_13\Task 8_13_3.sql" />
+    <Build Include="Scripts\Task8_13\Task 8_13_4.sql" />
+    <Build Include="Scripts\Task8_14\Tables\ExtraContents.sql" />
+    <Build Include="Scripts\Task8_14\Tables\Messages.sql" />
+    <Build Include="Scripts\Task8_14\Tables\Permissions.sql" />
+    <Build Include="Scripts\Task8_14\Tables\RolePermissions.sql" />
+    <Build Include="Scripts\Task8_14\Tables\Roles.sql" />
+    <Build Include="Scripts\Task8_14\Tables\Sections.sql" />
+    <Build Include="Scripts\Task8_14\Tables\SectionTopics.sql" />
+    <Build Include="Scripts\Task8_14\Tables\TopicMessages.sql" />
+    <Build Include="Scripts\Task8_14\Tables\Topics.sql" />
+    <Build Include="Scripts\Task8_14\Tables\Users.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Debug.publish.xml" />
@@ -542,5 +556,8 @@
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Post-Deployment\Script.PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="Northwind.refactorlog" />
   </ItemGroup>
 </Project>
