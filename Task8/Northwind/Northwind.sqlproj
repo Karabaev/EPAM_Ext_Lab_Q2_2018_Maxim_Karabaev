@@ -168,6 +168,17 @@
     <Folder Include="Schema Objects\Database Level Objects\Storage\Partition Schemes\" />
     <Folder Include="Scripts\Task8_1" />
     <Folder Include="Scripts\Task8_2" />
+    <Folder Include="Scripts\Task8_3" />
+    <Folder Include="Scripts\Task8_4" />
+    <Folder Include="Scripts\Task8_5" />
+    <Folder Include="Scripts\Task8_6" />
+    <Folder Include="Scripts\Task8_7" />
+    <Folder Include="Scripts\Task 8_8" />
+    <Folder Include="Scripts\Task8_9" />
+    <Folder Include="Scripts\Task8_10" />
+    <Folder Include="Scripts\Task8_11" />
+    <Folder Include="Scripts\Task8_12" />
+    <Folder Include="Scripts\Task8_13" />
   </ItemGroup>
   <ItemGroup>
     <BuildContributorArgument Include="OutDir=$(OutDir)" />
@@ -210,6 +221,12 @@
     <None Include="Scripts\Task8_1\Task 8_1_2.sql" />
     <None Include="Scripts\Task8_1\Task 8_1_3.sql" />
     <None Include="Scripts\Task8_2\Task 8_2_1.sql" />
+    <None Include="Scripts\Task8_3\Task 8_3_1.sql" />
+    <None Include="Scripts\Task8_6\Task 8_6_1.sql" />
+    <None Include="Scripts\Task8_7\Task 8_7_1.sql" />
+    <None Include="Scripts\Task 8_8\Task 8_8_1.sql" />
+    <None Include="Scripts\Task8_9\Task 8_9_1.sql" />
+    <None Include="Scripts\Task8_13\Test.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Permissions.sql" />
@@ -500,6 +517,21 @@
     </Build>
     <None Include="Scripts\Task8_2\Task 8_2_2.sql" />
     <None Include="Scripts\Task8_2\Task 8_2_3.sql" />
+    <None Include="Scripts\Task8_3\Task 8_3_2.sql" />
+    <None Include="Scripts\Task8_3\Task 8_3_3.sql" />
+    <None Include="Scripts\Task8_4\Task 8_4_1.sql" />
+    <None Include="Scripts\Task8_5\Task 8_5_1.sql" />
+    <None Include="Scripts\Task8_5\Task 8_5_2.sql" />
+    <None Include="Scripts\Task8_5\Task 8_5_3.sql" />
+    <None Include="Scripts\Task8_6\Task 8_6_2.sql" />
+    <None Include="Scripts\Task8_6\Task 8_6_3.sql" />
+    <None Include="Scripts\Task8_6\Task 8_6_4.sql" />
+    <None Include="Scripts\Task8_10\Task 8_10_1.sql" />
+    <None Include="Scripts\Task8_11\Task 8_11_1.sql" />
+    <None Include="Scripts\Task8_12\Task 8_12_1.sql" />
+    <Build Include="Scripts\Task8_13\Task 8_13_1.sql" />
+    <Build Include="Scripts\Task8_13\Task 8_13_2.sql" />
+    <Build Include="Scripts\Task8_13\Task 8_13_3.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Debug.publish.xml" />
