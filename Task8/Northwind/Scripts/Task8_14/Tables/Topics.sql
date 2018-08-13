@@ -5,5 +5,7 @@
     [CreatorID] INT NULL, 
     [CreationDate] DATE NULL, 
     [Link] VARCHAR(1000) NULL, 
-    CONSTRAINT [FK_Topics_ToTable] FOREIGN KEY ([CreatorID]) REFERENCES [Users]([UserID])
+    [SectionID] INT NULL, 
+    CONSTRAINT [FK_Topics_ToTable] FOREIGN KEY ([CreatorID]) REFERENCES [Users]([UserID]), 
+    CONSTRAINT [FK_Topics_ToTable_1] FOREIGN KEY (SectionID) REFERENCES Sections(SectionID)
 )
