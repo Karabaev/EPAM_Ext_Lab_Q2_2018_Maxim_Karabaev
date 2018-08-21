@@ -13,6 +13,7 @@
         private static string insertRecordCommadTemplate = "INSERT INTO {0} ({1}) VALUES ({2})";
         private const string IDPropName = "ID";
         private const string ErrorString = "Error";
+
         /// <summary>
         /// Собирает и возвращает строку запроса удаления записи из таблицы tableName с условием.
         /// </summary>
