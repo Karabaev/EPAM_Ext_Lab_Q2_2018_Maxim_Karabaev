@@ -6,8 +6,8 @@
     public interface IBaseRepository<T> 
     {
         T GetEntity<T>(uint id) where T : Entity;
-        List<T> GetAllEntities<T>() where T : Entity, new();
-        bool SaveEntity<T>(T entity) where T : Entity, new();
+        List<T> GetAllEntities<T>() where T : Entity;
+        bool SaveEntity<T>(T entity) where T : Entity;
         int RemoveEntity(uint id);
 
         string TableName { get; }

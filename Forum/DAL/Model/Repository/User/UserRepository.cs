@@ -39,7 +39,7 @@
                 base.connection.Open();
                 base.command = base.connection.CreateCommand();
                 base.command.CommandText = QueryBuilder.GetSelectRecordCommand(this.TableName,
-                                                                            QueryBuilder.GetEntiyProperties(typeof(User)),
+                                                                            QueryBuilder.GetEntityProperties(typeof(User)),
                                                                             "ID = {0}", id.ToString());
                 DbDataReader reader = command.ExecuteReader();
                 if(reader.HasRows)
@@ -47,7 +47,7 @@
                     if(reader.Read())
                     {
 
-                        result = new User((uint?)reader["id"], (string)reader["Login"], (string)reader["PasswordHash"], 
+                        result = new User((uint?)reader["UserID"], (string)reader["Login"], (string)reader["PasswordHash"], 
                             (string)reader["PublicName"], roleRepository.GetEntity<Role>((uint)reader["RoleID"]), 
                             (bool)reader["IsBanned"], (DateTime)reader["RegistrationDate"]);
                     }

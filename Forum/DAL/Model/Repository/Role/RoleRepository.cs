@@ -8,8 +8,18 @@
     public class RoleRepository : BaseRepository<Role>, IRoleRepository
     {
         public override string TableName { get; } = "Roles";
+        /// <summary>
+        /// Хранилище ролей для тестов.
+        /// </summary>
+        private readonly List<Role> roles = new List<Role>();
 
-        public RoleRepository(string connString, DbProviderFactory factory) : base(connString, factory){}
+        public RoleRepository(string connString, DbProviderFactory factory) : base(connString, factory)
+        {
+            roles = new List<Role>();
+            roles.Add(new Role(0, "r0", new List<Permission>()));
+            roles.Add(new Role(1, "r1", new List<Permission>()));
+            roles.Add(new Role(2, "r2", new List<Permission>()));
+        }
 
         
 

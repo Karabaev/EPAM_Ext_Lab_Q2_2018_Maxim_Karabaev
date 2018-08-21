@@ -10,6 +10,6 @@
         T GetEntity<T>(uint id) where T : Entity, new();
         List<T> GetAllEntities<T>() where T : Entity, new();
         bool SaveEntity<T>(T entity) where T : Entity;
-        bool RemoveEntity(uint id);
+        int RemoveEntity(uint id);
     }
 }

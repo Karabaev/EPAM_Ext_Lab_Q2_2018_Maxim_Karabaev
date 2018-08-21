@@ -22,7 +22,7 @@
             return this.userRepository.GetEntity<User>(id);
         }
 
-        public override bool RemoveEntity(uint id)
+        public override int RemoveEntity(uint id)
         {
             return this.userRepository.RemoveEntity(id);
         }

@@ -6,7 +6,7 @@
     using System.Collections.Generic;
     using System.Reflection;
 
-    internal static class QueryBuilder
+    public static class QueryBuilder
     {
         private static string selectCommandWithConditionTemplate = "SELECT {0} FROM {1} WHERE {2}";
         private static string deleteEntityCommandTemplate = "DELETE FROM {0} WHERE {1}";
@@ -89,7 +89,7 @@
             }
 
             tableFields = fields.ToString();
-            fieldValues = fieldValues.ToString();
+            fieldValues = values.ToString();
         }
 
         /// <summary>
@@ -98,7 +98,7 @@
         /// <typeparam name="T">Тип сущности, производный от DAL.Model.Entities.Entity.</typeparam>
         /// <param name="entity">Ссылка на объект сущности, сам объект в памяти не важен.</param>
         /// <returns>Строка с полями таблицы сущности. Поля разделяются запятыми.</returns>
-        public static string GetEntiyProperties(Type entityType)
+        public static string GetEntityProperties(Type entityType)
         {
             if(!entityType.IsSubclassOf(typeof(Entity)))
             {

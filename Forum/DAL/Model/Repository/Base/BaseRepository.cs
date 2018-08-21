@@ -22,7 +22,7 @@
             //this.IDProperty = typeof(Entity).GetProperty(IDPropName);
         }
 
-        public virtual List<T> GetAllEntities<T>() where T : Entity, new()
+        public virtual List<T> GetAllEntities<T>() where T : Entity
         {       
             throw new NotImplementedException();
         }
@@ -37,7 +37,7 @@
             throw new NotImplementedException();
         }
 
-        public virtual bool SaveEntity<T>(T entity) where T : Entity, new()
+        public virtual bool SaveEntity<T>(T entity) where T : Entity
         {
             throw new NotImplementedException();
         }

@@ -17,7 +17,7 @@ namespace DAL.Model.Service
             throw new NotImplementedException();
         }
 
-        public virtual bool RemoveEntity(uint id)
+        public virtual int RemoveEntity(uint id)
         {
             throw new NotImplementedException();
         }
