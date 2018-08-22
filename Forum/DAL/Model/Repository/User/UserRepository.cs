@@ -22,11 +22,23 @@
         {
             using (base.connection = base.factory.CreateConnection())
             {
-                List<T> entities = new List<T>();
                 base.connection.ConnectionString = connectionString;
                 base.connection.Open();
-                //var command = new SqlC
-                return entities;
+                base.command = base.connection.CreateCommand();
+                base.command.CommandText = QueryBuilder.GetSelectRecordCommand(this.TableName, "*");
+                DbDataReader reader = command.ExecuteReader();
+                List<User> result = new List<User>();
+
+                if (reader.HasRows)
+                {
+                    while(reader.Read())
+                    {
+                        result.Add(new User((uint?)reader["UserID"], (string)reader["Login"], (string)reader["PasswordHash"],
+                            (string)reader["PublicName"], roleRepository.GetEntity<Role>((uint)reader["RoleID"]),
+                            (bool)reader["IsBanned"], (FormattedDate)reader["RegistrationDate"]));
+                    }
+                }
+                return result as List<T>;
             }
         }
 
@@ -34,13 +46,13 @@
         {
             using (base.connection = base.factory.CreateConnection())
             {
-                User result = null;
                 base.connection.ConnectionString = base.connectionString;
                 base.connection.Open();
                 base.command = base.connection.CreateCommand();
                 base.command.CommandText = QueryBuilder.GetSelectRecordCommand(this.TableName,
                                                                             QueryBuilder.GetEntityProperties(typeof(User)),
                                                                             "ID = {0}", id.ToString());
+                User result = null;
                 DbDataReader reader = command.ExecuteReader();
                 if(reader.HasRows)
                 {
@@ -49,7 +61,7 @@
 
                         result = new User((uint?)reader["UserID"], (string)reader["Login"], (string)reader["PasswordHash"], 
                             (string)reader["PublicName"], roleRepository.GetEntity<Role>((uint)reader["RoleID"]), 
-                            (bool)reader["IsBanned"], (DateTime)reader["RegistrationDate"]);
+                            (bool)reader["IsBanned"], (FormattedDate)reader["RegistrationDate"]);
                     }
                 }
 
@@ -72,41 +84,18 @@
 
         public override bool SaveEntity<T>(T entity)
         {
-
-            //Dictionary<string, object> propValues = new Dictionary<string, object>();
-
-            //foreach (var item in newUser.GetType().GetProperties())
-            //{
-            //    propValues.Add(item.Name, item.PropertyType.IsSubclassOf(typeof(Entity)) ?  base.IDProperty.GetValue(newUser) :  
-            //                                                                                item.GetValue(newUser));
-            //}
-
-            //StringBuilder tableFields = new StringBuilder();
-            //StringBuilder fieldValues = new StringBuilder();
-            //string delimiter = ",";
-            //int index = 1;
-            //foreach (var item in propValues)
-            //{
-            //    tableFields.Append(item.Key);
-            //    fieldValues.Append(item.Value);
-            //    if(index < propValues.Count)
-            //    {
-            //        tableFields.Append(delimiter);
-            //        fieldValues.Append(delimiter);
-            //    }
-
-            //    index++;
-            //}
             User newUser = entity as User;
+
             string tableFields = string.Empty, fieldValues = string.Empty;
             QueryBuilder.GetEntityPropertiesAndValues(newUser, out tableFields, out fieldValues);
-
+            Console.WriteLine("entityID " + entity.ID);
+            Console.WriteLine("newUserID " + newUser.ID);
             using (base.connection = base.factory.CreateConnection())
             {
                 base.connection.ConnectionString = connectionString;
                 base.connection.Open();
                 base.command = base.connection.CreateCommand();
-                base.command.CommandText = QueryBuilder.GetAddRecordCommand(this.TableName, tableFields.ToString(), fieldValues.ToString());
+                base.command.CommandText = QueryBuilder.GetAddRecordCommand(this.TableName, tableFields, fieldValues);
                 base.command.CommandType = CommandType.Text;
                 return base.command.ExecuteNonQuery() > 0;
             }

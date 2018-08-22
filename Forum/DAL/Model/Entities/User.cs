@@ -1,6 +1,7 @@
 ﻿namespace DAL.Model.Entities
 {
     using System;
+    using DAL.Core;
 
     /// <summary>
     /// Пользователь.
@@ -30,7 +31,7 @@
         /// <summary>
         /// Дата регистрации.
         /// </summary>
-        public DateTime RegistrationDate { get; set; }
+        public FormattedDate RegistrationDate { get; set; }
 
         /// <summary>
         /// Констуктор инициализации свойств объекта, включая ID.
@@ -42,7 +43,7 @@
         /// <param name="role">Роль пользователя.</param>
         /// <param name="isBanned">Статус блокировки пользователя.</param>
         /// <param name="regDate">Дата регистрации пользователя.</param>
-        public User(uint? id, string login, string pass, string publicName, Role role, bool isBanned, DateTime regDate)
+        public User(uint? id, string login, string pass, string publicName, Role role, bool isBanned, FormattedDate regDate)
         {
             base.ID = id;
             this.Login = login;

@@ -9,6 +9,7 @@
     public static class QueryBuilder
     {
         private static string selectCommandWithConditionTemplate = "SELECT {0} FROM {1} WHERE {2}";
+        private static string selectCommandTemplate = "SELECT {0} FROM {1}";
         private static string deleteEntityCommandTemplate = "DELETE FROM {0} WHERE {1}";
         private static string insertRecordCommadTemplate = "INSERT INTO {0} ({1}) VALUES ({2})";
         private const string IDPropName = "ID";
@@ -42,10 +43,31 @@
             return result.ToString();
         }
 
+        /// <summary>
+        /// Собирает и возвращает строку запроса выборки из таблицы tableName с условием по формату conditionFormat.
+        /// </summary>
+        /// <param name="tableName">Имя таблицы.</param>
+        /// <param name="fields">Поля выборки.</param>
+        /// <param name="conditionFormat">Формат условия.</param>
+        /// <param name="conditionArgs">Аргументы условия.</param>
+        /// <returns>Строка запроса выборки с условием.</returns>
         public static string GetSelectRecordCommand(string tableName, string fields, string conditionFormat, params string[] conditionArgs)
         {
             StringBuilder result = new StringBuilder();
             result.AppendFormat(selectCommandWithConditionTemplate, fields, tableName, string.Format(conditionFormat, conditionArgs));
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Собирает и возвращает строку запроса выборки из таблицы tableName без условия.
+        /// </summary>
+        /// <param name="tableName">Имя таблицы.</param>
+        /// <param name="fields">Поля выборки.</param>
+        /// <returns>Строка запроса выборки без условия.</returns>
+        public static string GetSelectRecordCommand(string tableName, string fields)
+        {
+            StringBuilder result = new StringBuilder();
+            result.AppendFormat(selectCommandTemplate, fields, tableName);
             return result.ToString();
         }
 
@@ -57,8 +79,9 @@
         /// <param name="tableFields">Строка с названиями свойств. Названия разделяются запятыми.</param>
         /// <param name="fieldValues"> Строка со значениями свойств. Значения разделяются запятыми. Если тип свойства является 
         /// сущностью БД, то берется ее ID. </param>
-        public static void GetEntityPropertiesAndValues<T>(T entity, out string tableFields, out string fieldValues) where T : Entity
+        public static void GetEntityPropertiesAndValues<T>(T entity, out string tableFields, out string fieldValues, bool getID = false) where T : Entity
         {
+            Console.WriteLine("RoleID " + entity.ID);
             tableFields = string.Empty;
             fieldValues = string.Empty;
             Dictionary<string, object> propertiesAndValues = new Dictionary<string, object>();
@@ -66,8 +89,31 @@
 
             foreach (var item in entity.GetType().GetProperties())
             {
-                propertiesAndValues.Add(item.Name, item.PropertyType.IsSubclassOf(typeof(Entity)) ? IDProperty.GetValue(entity) :
-                                                                                                    item.GetValue(entity));
+                if(!getID && item.Name == IDProperty.Name)
+                {
+                    continue;
+                }
+
+                object value = null;
+
+                if (item.PropertyType.IsSubclassOf(typeof(Entity)))
+                {
+                    value = item == null ? null  : (item.GetValue(entity) as Entity).ID;
+                }
+                else
+                {
+                    value = item.GetValue(entity);
+                }
+
+                value = item.PropertyType.IsSubclassOf(typeof(Entity)) ? (item.GetValue(entity) as Entity).ID : 
+                                                                                item.GetValue(entity);
+
+                if (item.PropertyType == typeof(string) || item.PropertyType == typeof(bool) || item.PropertyType == typeof(FormattedDate))
+                {
+                    value = string.Format("'{0}'", value);
+                }
+                
+                propertiesAndValues.Add(item.Name, value);
             }
 
             StringBuilder fields = new StringBuilder();

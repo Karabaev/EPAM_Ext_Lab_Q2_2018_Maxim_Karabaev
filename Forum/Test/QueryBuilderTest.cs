@@ -30,9 +30,11 @@
         [TestMethod]
         public void GetAddRecordCommandTest()
         {
-            string result = QueryBuilder.GetAddRecordCommand("Users", "Name, RoleID", "Steve, 1");
+            string result = QueryBuilder.GetAddRecordCommand("Users", "Name, RoleID", "'Steve', 1");
             Console.WriteLine(result);
-            result = QueryBuilder.GetAddRecordCommand("Roles", "Name, Description", "Admin, Top users");
+            result = QueryBuilder.GetAddRecordCommand("Roles", "Name, Description", "'Admin', 'Top user'");
+            Console.WriteLine(result);
+            result = QueryBuilder.GetAddRecordCommand("Roles", "SELECT * FROM Users --", "'Admin', 'Top user'");
             Console.WriteLine(result);
         }
 
@@ -45,6 +47,8 @@
             string result = QueryBuilder.GetSelectRecordCommand("Users", "Name, RoleID", "ID = {0}", 1.ToString());
             Console.WriteLine(result);
             result = QueryBuilder.GetSelectRecordCommand("Roles", "*", "ID = {0}", 1.ToString());
+            Console.WriteLine(result);
+            result = QueryBuilder.GetSelectRecordCommand("Roles", "*", "");
             Console.WriteLine(result);
         }
 
@@ -68,11 +72,13 @@
         {
             string result1 = "";
             string result2 = "";
-            Role testRole = new Role(0, "r1", new List<Permission>());
-            User testUser = new User(0, "u1", "u1", "u1", testRole, false, DateTime.Now);
+            Role testRole = new Role(3, "r1", new List<Permission>());
+            User testUser = new User(0, "u1", "u1", "u1", testRole, false, new FormattedDate(DateTime.Now));
             QueryBuilder.GetEntityPropertiesAndValues(testUser, out result1, out result2);
             Console.WriteLine(result1 + "\n" + result2);
             QueryBuilder.GetEntityPropertiesAndValues(testRole, out result1, out result2);
+            Console.WriteLine(result1 + "\n" + result2);
+            QueryBuilder.GetEntityPropertiesAndValues(testRole, out result1, out result2, true);
             Console.WriteLine(result1 + "\n" + result2);
         }
     }
