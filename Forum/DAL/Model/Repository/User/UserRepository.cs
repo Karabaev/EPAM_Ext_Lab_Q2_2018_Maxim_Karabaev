@@ -146,7 +146,15 @@
                 base.command = base.connection.CreateCommand();
                 base.command.CommandText = QueryBuilder.GetAddRecordCommand(this.TableName, tableFields, fieldValues);
                 base.command.CommandType = CommandType.Text;
-                return base.command.ExecuteNonQuery() > 0;
+                try
+                {
+                    return base.command.ExecuteNonQuery() > 0;
+                }
+                catch(DbException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
             }
         }
 

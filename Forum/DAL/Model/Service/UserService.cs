@@ -3,7 +3,8 @@
     using DAL.Model.Entities;
     using DAL.Model.Repository;
     using System.Collections.Generic;
-    public class UserService : BaseService<User>
+
+    public class UserService : BaseService<User>, IUserService
     {
         private IUserRepository userRepository;
 

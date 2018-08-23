@@ -6,6 +6,7 @@
     using DAL.Model.Entities;
     using System.Collections.Generic;
     using System.Data.Common;
+    using System.Configuration;
 
     /// <summary>
     /// Тесты хелпера QueryBuilder. В качестве тестов в основном используется вывод возвращаемых комманд на экран.
@@ -13,8 +14,16 @@
     [TestClass]
     public class QueryBuilderTest
     {
-        private const string ConnString = "Data Source=(local);Initial Catalog=Forum;Integrated Security=True";
-        private const string FactoryString = "System.Data.SqlClient";
+        private readonly string ConnString;
+        private readonly DbProviderFactory Factory;
+        private const string ConectionSringName = "ForumSqlServerConnection";
+
+        public QueryBuilderTest()
+        {
+            var connectionStringItem = ConfigurationManager.ConnectionStrings[ConectionSringName];
+            ConnString = connectionStringItem.ConnectionString;
+            Factory = DbProviderFactories.GetFactory(connectionStringItem.ProviderName);
+        }
 
         /// <summary>
         /// Тест метода QueryBuilder.GetDeleteRecordCommand.
@@ -104,11 +113,10 @@
         [TestMethod]
         public void GetNotExistStoredProcedureDataReaderTest()
         {
-            DbProviderFactory factory = DbProviderFactories.GetFactory(FactoryString);
-            DbConnection connection = factory.CreateConnection();
+            DbConnection connection = Factory.CreateConnection();
             connection.ConnectionString = ConnString;
             connection.Open();
-            DbParameter parameter = factory.CreateParameter();
+            DbParameter parameter = Factory.CreateParameter();
             parameter.ParameterName = "";
             parameter.Value = 15;
             Assert.IsNull(QueryBuilder.GetStoredProcedureDataReader(connection, "11", parameter));
@@ -120,14 +128,13 @@
         [TestMethod]
         public void GetStoredProcedureInvalidParamsDataReaderTest()
         {
-            DbProviderFactory factory = DbProviderFactories.GetFactory(FactoryString);
-            DbConnection connection = factory.CreateConnection();
+            DbConnection connection = Factory.CreateConnection();
             connection.ConnectionString = ConnString;
             connection.Open();
-            DbParameter parameter1 = factory.CreateParameter();
+            DbParameter parameter1 = Factory.CreateParameter();
             parameter1.ParameterName = "@SomeVal";
             parameter1.Value = 143;
-            DbParameter parameter2 = factory.CreateParameter();
+            DbParameter parameter2 = Factory.CreateParameter();
             parameter2.ParameterName = "@SomeVal2";
             parameter2.Value = "Hello world!";
             Assert.IsNull(QueryBuilder.GetStoredProcedureDataReader(connection, "GetAllUsers", parameter1, parameter2));

@@ -1,17 +1,14 @@
 ﻿namespace Test
 {
     using System;
-    using DAL;
-    using DAL.Model;
     using DAL.Core;
     using DAL.Model.Entities;
     using DAL.Model.Repository;
-    using DAL.Model.Service;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Data;
     using System.Data.Common;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Configuration;
 
     /// <summary>
     /// Тесты сущности, репозитория, сервиса User.
@@ -19,11 +16,18 @@
     [TestClass]
     public class UserEntityTests
     {
-        private const string connString = "Data Source=(local);Initial Catalog=Forum;Integrated Security=True";
-        private const string factoryString = "System.Data.SqlClient";
+        private const string ConectionSringName = "ForumSqlServerConnection";
         private const int ExistID = 18;
         private const int NotExistID = 1000;
         private const int DisplayUsersCount = 1;
+
+        private UserRepository GetUserRepository()
+        {
+            var connectionStringItem = ConfigurationManager.ConnectionStrings[ConectionSringName];
+            var connString = connectionStringItem.ConnectionString;
+            var factory = DbProviderFactories.GetFactory(connectionStringItem.ProviderName);
+            return new UserRepository(connString, factory, new RoleRepository(connString, factory));
+        }
 
         /// <summary>
         /// Тест метода User.Equals. При сравнении используются разные инстансы ролей и списков разрешений.
@@ -54,10 +58,7 @@
         [TestMethod]
         public void ReposSaveEntityTest()
         {
-            UserRepository userRepos = new UserRepository(  connString, 
-                                                            DbProviderFactories.GetFactory(factoryString), 
-                                                            new RoleRepository( connString, 
-                                                                                DbProviderFactories.GetFactory(factoryString)));
+            UserRepository userRepos = this.GetUserRepository();
             Role testRole = new Role(1, "r1", new List<Permission>());
             User testUser = new User(4, "u1", "u1", "u1", testRole, false, DateTime.Now, "u1@ya.ru");
             Assert.IsTrue(userRepos.SaveEntity(testUser));
@@ -70,10 +71,7 @@
         [TestMethod]
         public void ReposRemoveNotExistEntity()
         {
-            UserRepository userRepos = new UserRepository(connString,
-                                                            DbProviderFactories.GetFactory(factoryString),
-                                                            new RoleRepository(connString,
-                                                                                DbProviderFactories.GetFactory(factoryString)));
+            UserRepository userRepos = this.GetUserRepository();
             Assert.IsTrue(userRepos.RemoveEntity(NotExistID) == 0);
         }
 
@@ -83,10 +81,7 @@
         [TestMethod]
         public void ReposRemoveOneExistEntity()
         {
-            UserRepository userRepos = new UserRepository(connString,
-                                                            DbProviderFactories.GetFactory(factoryString),
-                                                            new RoleRepository(connString,
-                                                                                DbProviderFactories.GetFactory(factoryString)));
+            UserRepository userRepos = this.GetUserRepository();
             User newUser = new User(null, "u", "u", "u", new Role(1, "r", new List<Permission>()), false, DateTime.Now, "u");
 
             if(!userRepos.SaveEntity(newUser))
@@ -111,11 +106,7 @@
         [TestMethod]
         public void ReposGetAllEntitiesTest()
         {
-            UserRepository userRepos = new UserRepository(  connString,
-                                                            DbProviderFactories.GetFactory(factoryString),
-                                                            new RoleRepository( connString,
-                                                                                DbProviderFactories.GetFactory(factoryString)));
-            
+            UserRepository userRepos = this.GetUserRepository();
             List<User> expectedUsers = new List<User>();
             Role role = new Role(1, "r1", new List<Permission>());
             FormattedDate date = new DateTime(2018, 08, 22);
@@ -159,10 +150,7 @@
         [TestMethod]
         public void ReposGetTopNEntitiesTest()
         {
-            UserRepository userRepos = new UserRepository(  connString,
-                                                            DbProviderFactories.GetFactory(factoryString),
-                                                            new RoleRepository( connString,
-                                                                                DbProviderFactories.GetFactory(factoryString)));
+            UserRepository userRepos = this.GetUserRepository();
             List<User> addedUsers = new List<User>();
             Role role = new Role(1, "r1", new List<Permission>());
             FormattedDate date = new DateTime(2018, 08, 22);
@@ -197,13 +185,16 @@
         [TestMethod]
         public void ReposGetEntityWithExpectedIDTest()
         {
-            UserRepository userRepos = new UserRepository(  connString,
-                                                            DbProviderFactories.GetFactory(factoryString),
-                                                            new RoleRepository( connString,
-                                                                                DbProviderFactories.GetFactory(factoryString)));
-            User user = userRepos.GetEntity<User>(18);
-            User expectedUser = new User(18, "u1", "u1", "u1", new Role(1, "r1", new List<Permission>()), false, new DateTime(2018, 08, 22), "u1@ya.ru");
-            Assert.IsTrue(user.LikeAs(expectedUser));
+            UserRepository userRepos = this.GetUserRepository();
+            List<User> users = userRepos.GetAllEntities<User>();
+            
+            if (users == null || !users.Any() || users[0] == null)
+            {
+                Assert.Fail("Не удалось загрузить пользователей из базы.");
+            }
+            User expectedUser = users[0];
+            User user = userRepos.GetEntity<User>(expectedUser.ID);
+            Assert.IsTrue(user.Equals(expectedUser));
         }
 
         /// <summary>
@@ -212,11 +203,8 @@
         [TestMethod]
         public void ReposGetEntityWithNotExistedTest()
         {
-            UserRepository userRepos = new UserRepository(connString,
-                                                            DbProviderFactories.GetFactory(factoryString),
-                                                            new RoleRepository(connString,
-                                                                                DbProviderFactories.GetFactory(factoryString)));
-            User user = userRepos.GetEntity<User>(1000);
+            UserRepository userRepos = this.GetUserRepository();
+            User user = userRepos.GetEntity<User>(NotExistID);
             Assert.IsNull(user);
         }
     }
