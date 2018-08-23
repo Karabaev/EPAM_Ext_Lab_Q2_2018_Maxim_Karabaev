@@ -12,12 +12,12 @@ namespace DAL.Model.Service
             throw new NotImplementedException();
         }
 
-        public virtual T GetEntity<T>(uint id) where T : Entity, new()
+        public virtual T GetEntity<T>(int id) where T : Entity, new()
         {
             throw new NotImplementedException();
         }
 
-        public virtual int RemoveEntity(uint id)
+        public virtual int RemoveEntity(int id)
         {
             throw new NotImplementedException();
         }

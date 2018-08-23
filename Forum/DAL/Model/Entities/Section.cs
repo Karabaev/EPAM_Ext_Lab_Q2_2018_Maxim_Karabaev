@@ -52,6 +52,11 @@ namespace DAL.Model.Entities
             return result;
         }
 
+        public override bool LikeAs(Entity entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Reinitialization(Entity other)
         {
             Section newSection = other as Section;

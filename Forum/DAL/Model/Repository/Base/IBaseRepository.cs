@@ -5,11 +5,12 @@
 
     public interface IBaseRepository<T> 
     {
-        T GetEntity<T>(uint id) where T : Entity;
+        T GetEntity<T>(int? id) where T : Entity;
         List<T> GetAllEntities<T>() where T : Entity;
+        List<T> GetAllEntities<T>(int count) where T : Entity;
         bool SaveEntity<T>(T entity) where T : Entity;
-        int RemoveEntity(uint id);
-
+        int RemoveEntity(int? id);
+        int RemoveAllEntities();
         string TableName { get; }
     }
 }

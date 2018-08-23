@@ -17,12 +17,12 @@
             return this.userRepository.GetAllEntities<User>();
         }
 
-        public User GetEntity(uint id)
+        public User GetEntity(int id)
         {
             return this.userRepository.GetEntity<User>(id);
         }
 
-        public override int RemoveEntity(uint id)
+        public override int RemoveEntity(int id)
         {
             return this.userRepository.RemoveEntity(id);
         }

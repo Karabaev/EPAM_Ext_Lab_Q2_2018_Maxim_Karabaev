@@ -5,12 +5,15 @@
     using DAL.Model.Entities;
     using System.Collections.Generic;
     using System.Reflection;
+    using System.Data.Common;
+    using System.Data;
 
     public static class QueryBuilder
     {
         private static string selectCommandWithConditionTemplate = "SELECT {0} FROM {1} WHERE {2}";
         private static string selectCommandTemplate = "SELECT {0} FROM {1}";
         private static string deleteEntityCommandTemplate = "DELETE FROM {0} WHERE {1}";
+        private static string deleteAllEntitiesCommandTemplate = "DELETE FROM {0}";
         private static string insertRecordCommadTemplate = "INSERT INTO {0} ({1}) VALUES ({2})";
         private const string IDPropName = "ID";
         private const string ErrorString = "Error";
@@ -26,6 +29,18 @@
         {
             StringBuilder result = new StringBuilder();
             result.AppendFormat(deleteEntityCommandTemplate, tableName, string.Format(conditionFormat, conditionArgs));
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Собирает и возвращает строку запроса удаления всех записей из таблицы tableName.
+        /// </summary>
+        /// <param name="tableName">Имя таблицы, откуда удалять записи.</param>
+        /// <returns>Строка запроса.</returns>
+        public static string GetDeleteAllRecordsCommand(string tableName)
+        {
+            StringBuilder result = new StringBuilder();
+            result.AppendFormat(deleteAllEntitiesCommandTemplate, tableName);
             return result.ToString();
         }
 
@@ -72,6 +87,37 @@
         }
 
         /// <summary>
+        /// Вызывает хранимую процедуру procName и возвращает DbDataReader.
+        /// </summary>
+        /// <param name="connection">Используемое соединение к базе.</param>
+        /// <param name="procName">Имя вызываемой процедуры.</param>
+        /// <param name="parameters">Список параметров процедуры.</param>
+        /// <returns>DbDataReader с результатом выполнения хранимой процедуры.</returns>
+        public static DbDataReader GetStoredProcedureDataReader(DbConnection connection, string procName, params DbParameter[] parameters)
+        {
+            try
+            {
+                DbCommand command = connection.CreateCommand();
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = procName;
+
+                foreach (var item in parameters)
+                {
+                    command.Parameters.Add(item);
+                }
+
+                return command.ExecuteReader();
+            }
+            catch(DbException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+
+        }
+
+
+        /// <summary>
         /// Собирает имена свойств и значения объекта entity в строки, разделенные запятыми для дальнейшего использования в запросах.
         /// </summary>
         /// <typeparam name="T">Тип сущности, производный от DAL.Model.Entities.Entity.</typeparam>
@@ -81,7 +127,6 @@
         /// сущностью БД, то берется ее ID. </param>
         public static void GetEntityPropertiesAndValues<T>(T entity, out string tableFields, out string fieldValues, bool getID = false) where T : Entity
         {
-            Console.WriteLine("RoleID " + entity.ID);
             tableFields = string.Empty;
             fieldValues = string.Empty;
             Dictionary<string, object> propertiesAndValues = new Dictionary<string, object>();

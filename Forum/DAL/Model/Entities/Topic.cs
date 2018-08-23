@@ -43,6 +43,12 @@ namespace DAL.Model.Entities
                 (CreationDate == other.CreationDate) &&
                 (Link == other.Link);
         }
+
+        public override bool LikeAs(Entity entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public override int GetHashCode()
         {
             int result = 0;

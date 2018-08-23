@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Уровень доступа (админ, модератор, пользователь, гость...).
@@ -17,7 +18,7 @@
         /// </summary>
         public List<Permission> Permissions { get; set; }
 
-        public Role(uint? id, string name, List<Permission> permissions)
+        public Role(int? id, string name, List<Permission> permissions)
         {
             base.ID = id;
             this.Name = name;
@@ -27,20 +28,41 @@
         public override bool Equals(object obj)
         {
             Role other = obj as Role;
-            if (other == null) return false;
-            return (Name == other.Name) && Permissions.Equals(other.Permissions);
+
+            if (other == null)
+
+            {
+                return false;
+            }
+
+            return (base.ID == other.ID) && this.LikeAs(other);
         }
+
+        public override bool LikeAs(Entity entity)
+        {
+            Role other = entity as Role;
+
+            if (other == null)
+            {
+                return false;
+            }
+
+            return (this.Name == other.Name) && this.Permissions.All(other.Permissions.Contains);
+        }
+
         public override int GetHashCode()
         {
             int result = 0;
+
             try
             {
-                result = ID.GetHashCode() + Name.GetHashCode() + Permissions.GetHashCode();// + Users.GetHashCode();
+                result = base.ID.GetHashCode() + this.Name.GetHashCode() + this.Permissions.GetHashCode();
             }
             catch (StackOverflowException ex)
             {
                 Console.WriteLine(ex.Message);
             }
+
             return result;
         }
 
@@ -48,8 +70,8 @@
         {
             Role newRole = other as Role;
             if (newRole == null) return;
-            Name = newRole.Name;
-            Permissions = newRole.Permissions;
+            this.Name = newRole.Name;
+            this.Permissions = newRole.Permissions;
         }
     }
 }

@@ -4,10 +4,12 @@
     using System.Collections.Generic;
     using System.Data.Common;
     using DAL.Model.Entities;
+    using System.Linq;
 
     public class RoleRepository : BaseRepository<Role>, IRoleRepository
     {
         public override string TableName { get; } = "Roles";
+
         /// <summary>
         /// Хранилище ролей для тестов.
         /// </summary>
@@ -21,26 +23,39 @@
             roles.Add(new Role(2, "r2", new List<Permission>()));
         }
 
-        
+        public override T GetEntity<T>(int? id)
+        {
+            if(!id.HasValue)
+            {
+                return null;
+            }
+
+            return roles.Where(r => r.ID == id).FirstOrDefault() as T;
+        }
 
         public override List<T> GetAllEntities<T>()
         {
-            return base.GetAllEntities<T>();
+            throw new NotImplementedException();
         }
 
-        public override T GetEntity<T>(uint id)
+        public override List<T> GetAllEntities<T>(int count)
         {
-            return base.GetEntity<T>(id);
+            throw new NotImplementedException();
         }
 
-        public override int RemoveEntity(uint id)
+        public override int RemoveAllEntities()
         {
-            return base.RemoveEntity(id);
+            throw new NotImplementedException();
+        }
+
+        public override int RemoveEntity(int? id)
+        {
+            throw new NotImplementedException();
         }
 
         public override bool SaveEntity<T>(T entity)
         {
-            return base.SaveEntity(entity);
+            throw new NotImplementedException();
         }
     }
 }

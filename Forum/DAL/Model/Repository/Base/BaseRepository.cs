@@ -5,43 +5,26 @@
     using System.Data.Common;
     using DAL.Model.Entities;
 
-    public class BaseRepository<T> : IBaseRepository<T>
+    public abstract class BaseRepository<T> : IBaseRepository<T>
     {
         protected string connectionString;
         protected DbProviderFactory factory;
         protected DbCommand command;
         protected DbConnection connection;
-        //protected PropertyInfo IDProperty;
-
-        //private const string IDPropName = "ID";
 
         public BaseRepository(string connString, DbProviderFactory factory)
         {
             this.connectionString = connString;
             this.factory = factory;
-            //this.IDProperty = typeof(Entity).GetProperty(IDPropName);
         }
 
-        public virtual List<T> GetAllEntities<T>() where T : Entity
-        {       
-            throw new NotImplementedException();
-        }
+        public abstract string TableName { get; }
 
-        public virtual T GetEntity<T>(uint id) where T : Entity
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual int RemoveEntity(uint id) 
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual bool SaveEntity<T>(T entity) where T : Entity
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual string TableName { get; } = "Default";
+        public abstract List<T> GetAllEntities<T>() where T : Entity;
+        public abstract List<T> GetAllEntities<T>(int count) where T : Entity;
+        public abstract T GetEntity<T>(int? id) where T : Entity;
+        public abstract int RemoveAllEntities();
+        public abstract int RemoveEntity(int? id);
+        public abstract bool SaveEntity<T>(T entity) where T : Entity;
     }
 }

@@ -63,5 +63,10 @@ namespace DAL.Model.Entities
             Content = message.Content;
             Extra = message.Extra;
         }
+
+        public override bool LikeAs(Entity entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

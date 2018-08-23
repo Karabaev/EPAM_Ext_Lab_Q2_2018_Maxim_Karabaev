@@ -7,9 +7,9 @@
 
     public interface IBaseService<T>
     {
-        T GetEntity<T>(uint id) where T : Entity, new();
+        T GetEntity<T>(int id) where T : Entity, new();
         List<T> GetAllEntities<T>() where T : Entity, new();
         bool SaveEntity<T>(T entity) where T : Entity;
-        int RemoveEntity(uint id);
+        int RemoveEntity(int id);
     }
 }

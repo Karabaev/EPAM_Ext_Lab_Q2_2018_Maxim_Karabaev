@@ -32,6 +32,10 @@
         /// Дата регистрации.
         /// </summary>
         public FormattedDate RegistrationDate { get; set; }
+        /// <summary>
+        /// Почта.
+        /// </summary>
+        public string Email { get; set; }
 
         /// <summary>
         /// Констуктор инициализации свойств объекта, включая ID.
@@ -43,7 +47,8 @@
         /// <param name="role">Роль пользователя.</param>
         /// <param name="isBanned">Статус блокировки пользователя.</param>
         /// <param name="regDate">Дата регистрации пользователя.</param>
-        public User(uint? id, string login, string pass, string publicName, Role role, bool isBanned, FormattedDate regDate)
+        /// <param name="email">Электронная почта пользователя.</param>
+        public User(int? id, string login, string pass, string publicName, Role role, bool isBanned, FormattedDate regDate, string email)
         {
             base.ID = id;
             this.Login = login;
@@ -52,6 +57,7 @@
             this.UserRole = role;
             this.IsBanned = isBanned;
             this.RegistrationDate = regDate;
+            this.Email = email;
         }
 
         /// <summary>
@@ -62,12 +68,35 @@
         public override bool Equals(object obj)
         {
             User other = obj as User;
-            if (other == null) return false;
-            return (Login == other.Login) && 
-                    (PasswordHash == other.PasswordHash) && 
-                    UserRole.Equals(other.UserRole) && 
-                    (IsBanned == other.IsBanned) &&
-                    (PublicName == other.PublicName);
+
+            if (other == null)
+            {
+                return false;
+            }
+
+            return (base.ID == other.ID) && this.LikeAs(other);
+        }
+
+        /// <summary>
+        /// Сравнивает сущность с другой. Сравниваются все свойства, кроме ID.
+        /// </summary>
+        /// <param name="entity">Другая сущность.</param>
+        /// <returns>true если объекты подобны, иначе false.</returns>
+        public override bool LikeAs(Entity entity)
+        {
+            User other = entity as User;
+
+            if(other == null)
+            {
+                return false;
+            }
+
+            return  (this.Login == other.Login) &&
+                    (this.PasswordHash == other.PasswordHash) &&
+                    this.UserRole.Equals(other.UserRole) &&
+                    (this.IsBanned == other.IsBanned) &&
+                    (this.PublicName == other.PublicName) &&
+                    (this.Email == other.Email);
         }
 
         /// <summary>
@@ -106,11 +135,13 @@
             User newUser = other as User;
             if (newUser == null)
                 return;
-            Login = newUser.Login;
-            PasswordHash = newUser.PasswordHash;
-            PublicName = newUser.PublicName;
-            UserRole = newUser.UserRole;
-            IsBanned = newUser.IsBanned;
+            this.Login = newUser.Login;
+            this.PasswordHash = newUser.PasswordHash;
+            this.PublicName = newUser.PublicName;
+            this.UserRole = newUser.UserRole;
+            this.IsBanned = newUser.IsBanned;
+            this.RegistrationDate = newUser.RegistrationDate;
+            this.Email = newUser.Email;
         }
     }
 }
