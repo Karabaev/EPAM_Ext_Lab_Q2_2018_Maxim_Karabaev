@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" type="text/css" href="~/Styles/Styles.css" />
+
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/Scripts.js"></script>
+    <title>Index</title>
+</head>
+<body>
+    <div id="Content1">
+        @Html.Partial("Content1")
+    </div>
+    <div class="hidden" id="Content2">
+        @Html.Partial("Content2")
+    </div>
+    <div>
+       <input type="button" id="PrevPageBtn" value="Previous page" onclick="PrevPageBtnClick"/>
+    </div>
+</body>
+</html>
