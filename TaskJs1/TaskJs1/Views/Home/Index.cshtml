@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SomeView</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/Script.js"></script>
+    <script>
+        var LeftList = @Html.Raw(Json.Encode(@ViewBag.Left));
+        var RightList = @Html.Raw(Json.Encode(@ViewBag.Right));
+    </script>
+</head>
+<body>
+    <div style="display:inline-flex">
+        <div>
+            <select id="leftList" name="select" style="height:8rem; width:10rem"  size="6" ></select>
+        </div>
+        <div>
+            <div>
+                <button id="allToRightMoveBtn" style="width:3rem;height:2rem">>></button>
+            </div>
+            <div>
+                <button id = "toRightMoveBtn" style = "width:3rem;height:2rem">></button>
+            </div>
+            <div>
+                <button id = "toLeftMoveBtn" style = "width:3rem;height:2rem"><</button>
+            </div>
+            <div>
+                <button id="allToLeftMoveBtn" style = "width:3rem;height:2rem"><<</button>
+            </div>
+        </div>
+        <div>
+            <select id="rightList" name="select"  size="6" style="height:8rem; width:10rem"></select>
+        </div>
+    </div>
+</body>
+</html>
