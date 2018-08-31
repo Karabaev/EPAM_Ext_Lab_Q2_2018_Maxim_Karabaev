@@ -3,21 +3,33 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" type="text/css" href="~/Styles/Styles.css" />
-
-    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/Scripts.js"></script>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
     <title>Index</title>
 </head>
 <body>
-    <div id="Content1">
+    <span id="Content1" >
         @Html.Partial("Content1")
-    </div>
-    <div class="hidden" id="Content2">
+    </span>
+    <span id="Content2">
         @Html.Partial("Content2")
-    </div>
+    </span>
+    <span id="Content3" >
+        @Html.Partial("Content3")
+    </span>
+    <span id="Content4" >
+        @Html.Partial("Content4")
+    </span>
     <div>
-       <input type="button" id="PrevPageBtn" value="Previous page" onclick="PrevPageBtnClick"/>
+        <button id="PrevPageBtn">Previous page</button>
+        <button id="StopContinueTimerBtn">Stop timer</button>
     </div>
+    <div id="TimerDiv"></div>
+    <div id="CurrentPageDiv"></div>
 </body>
 </html>

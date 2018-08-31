@@ -1,9 +1,10 @@
-﻿div.hidden
+﻿.hidden
 {
-    visibility: hidden;
+    display: none;
 }
 
-/*div.visible
+.visible 
 {
-    visibility: visible;
-}*/
+    display: block;
+    color : green;
+}

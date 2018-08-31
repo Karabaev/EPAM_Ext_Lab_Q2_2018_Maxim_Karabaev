@@ -98,6 +98,8 @@
     <Content Include="Scripts\Scripts.js" />
     <Content Include="Styles\Styles.css" />
     <Content Include="Web.config" />
+    <Content Include="Views\Home\Content3.cshtml" />
+    <Content Include="Views\Home\Content4.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
