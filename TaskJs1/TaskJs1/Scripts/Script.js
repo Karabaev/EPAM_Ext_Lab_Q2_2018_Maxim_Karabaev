@@ -1,10 +1,10 @@
-﻿var leftArrJSON;
-var rightArrJSON;
+﻿var leftListJSON;
+var rightListJSON;
 
-var ToLeftBtn;
-var ToRightBtn;
-var AllToLeftBtn;
-var AllToRightBtn;
+var ToLeftBtn; // кнопка переноса влево
+var ToRightBtn; // кнопка переноса вправо
+var AllToLeftBtn; // кнопка переноса влево всего списка
+var AllToRightBtn; // // кнопка переноса вправо всего списка
 
 $(document).ready(function () {
     ToLeftBtn = $("#toLeftMoveBtn");
@@ -22,10 +22,10 @@ $(document).ready(function () {
     AllToLeftBtn.bind('click', AllToLeftBtnClick);
     AllToRightBtn.bind('click', AllToRightBtnClick);
 
-    RenderAll();
+    RenderAll(); 
 });
 
-
+// вывести на экран один элемент списка
 function Render(someId, someArr)
 {
     Clear(someId);
@@ -35,19 +35,22 @@ function Render(someId, someArr)
     });
 }
 
+// очистить с
 function Clear(someId)
 {
     $(someId).empty()
 }
 
+// запись на сервер
 function SaveCondition(leftJson, rightJson)
 {
     $.ajax({type: "POST",
             traditional: true,
-            url: "/Home/SaveToLeftList",
+            url: "/Home/SaveLists",
             data: { leftArray: leftJson, rightArray: rightJson }, });
 }
 
+// перенести элемент в другой список
 function Replace(from, to, item)
 {
     var index = from.indexOf(item);
@@ -62,6 +65,7 @@ function Replace(from, to, item)
     }
 }
 
+// перенести все элементы
 function ReplaceAll(from, to)
 {
     for (var i = 0; i < from.length; i++)
@@ -70,50 +74,49 @@ function ReplaceAll(from, to)
     from.splice(0)
 }
 
+// клик по кнопке влево
 function ToLeftBtnClick()
 {
     var option = $('option:selected').text();
-        Replace(RightList, LeftList, option);
-        ReplaceElements();
-    
-  //  alert("Left move");
+    Replace(RightList, LeftList, option);
+    ReplaceElements();
 }
 
+// клик по кнопке вправо
 function ToRightBtnClick()
 {
     var option = $('option:selected').text();
-        Replace(LeftList, RightList, option);
-        ReplaceElements();
-    
-  //  alert($('.leftOption:selected').text());
+    Replace(LeftList, RightList, option);
+    ReplaceElements(); 
 }
 
+// // клик по кнопке все влево
 function AllToLeftBtnClick()
 {
     ReplaceAll(RightList, LeftList);
     ReplaceElements();
- //   alert("All left move");
 }
 
+// // клик по кнопке все вправо
 function AllToRightBtnClick()
 {
     ReplaceAll(LeftList, RightList);
     ReplaceElements();
-  //  alert("All right move");
 }
 
-
+//вывести все списки
 function RenderAll()
 {
     Render("#leftList", LeftList);
     Render("#rightList", RightList);
 }
 
+// переместить
 function ReplaceElements()
 {
-    leftArrJSON = JSON.stringify(LeftList);
-    rightArrJSON = JSON.stringify(RightList);
+    leftListJSON = JSON.stringify(LeftList);
+    rightListJSON = JSON.stringify(RightList);
     RenderAll();
-    SaveCondition(leftArrJSON, rightArrJSON);
+    SaveCondition(leftListJSON, rightListJSON);
 }
 

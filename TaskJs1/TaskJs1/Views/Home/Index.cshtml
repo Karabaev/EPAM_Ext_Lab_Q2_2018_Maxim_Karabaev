@@ -3,12 +3,11 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>SomeView</title>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script src="~/Scripts/Script.js"></script>
     <script>
-        var LeftList = @Html.Raw(Json.Encode(@ViewBag.Left));
-        var RightList = @Html.Raw(Json.Encode(@ViewBag.Right));
+        var LeftList = @Html.Raw(Json.Encode(@ViewBag.LeftList));
+        var RightList = @Html.Raw(Json.Encode(@ViewBag.RightList));
     </script>
 </head>
 <body>
