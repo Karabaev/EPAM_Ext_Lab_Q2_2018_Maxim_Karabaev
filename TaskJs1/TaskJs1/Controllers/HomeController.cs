@@ -7,8 +7,8 @@ namespace TaskJs1.Controllers
 {
         public class HomeController : Controller
         {
-            public List<string> leftList = new List<string>() { "Option1", "Option1" };
-            public List<string> rightList = new List<string>() { "Option2", "Option2" };
+            public List<string> leftList = new List<string>() { "Left option 1", "Left option 2", "Left option 3" };
+            public List<string> rightList = new List<string>() { "Right option 1", "Right option 2", "Right option 3" };
 
             // GET: Home
             public ActionResult Index()

@@ -52,10 +52,13 @@ function Replace(from, to, item)
 {
     var index = from.indexOf(item);
 
-    if (item)
+    if (index >= 0)
     {
-        to.push(from[index]);
-        from.splice(index, 1)
+        if (item)
+        {
+            to.push(from[index]);
+            from.splice(index, 1)
+        }
     }
 }
 
@@ -69,15 +72,19 @@ function ReplaceAll(from, to)
 
 function ToLeftBtnClick()
 {
-    Replace(RightList, LeftList, $('option:selected').text());
-    ReplaceElements();
+    var option = $('option:selected').text();
+        Replace(RightList, LeftList, option);
+        ReplaceElements();
+    
   //  alert("Left move");
 }
 
 function ToRightBtnClick()
 {
-    Replace(LeftList, RightList, $('option:selected').text());
-    ReplaceElements();
+    var option = $('option:selected').text();
+        Replace(LeftList, RightList, option);
+        ReplaceElements();
+    
   //  alert($('.leftOption:selected').text());
 }
 
