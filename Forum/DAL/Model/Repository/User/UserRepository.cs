@@ -9,7 +9,7 @@
 
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
-        public override string TableName { get; } = "Users";
+        public override string TableName { get; } = "Users"; 
         private readonly RoleRepository roleRepository;
 
         public UserRepository(string connString, DbProviderFactory provider, RoleRepository roleRepos) : base(connString, provider)
