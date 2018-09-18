@@ -14,7 +14,9 @@
         private static string selectCommandTemplate = "SELECT {0} FROM {1}";
         private static string deleteEntityCommandTemplate = "DELETE FROM {0} WHERE {1}";
         private static string deleteAllEntitiesCommandTemplate = "DELETE FROM {0}";
-        private static string insertRecordCommadTemplate = "INSERT INTO {0} ({1}) VALUES ({2})";
+        private static string insertRecordCommadWithFieldsTemplate = "INSERT INTO {0} ({1}) VALUES ({2})";
+        private static string insertRecordCommadTemplate = "INSERT INTO {0} VALUES ({1})";
+        private static string UpdateRecordCommandWithConditionTemplate = "UPDATE {0} SET {1} WHERE {2}";
         private const string IDPropName = "ID";
         private const string ErrorString = "Error";
 
@@ -54,7 +56,14 @@
         public static string GetAddRecordCommand(string tableName, string fields, string values)
         {
             StringBuilder result = new StringBuilder();
-            result.AppendFormat(insertRecordCommadTemplate, tableName, fields, values);
+            result.AppendFormat(insertRecordCommadWithFieldsTemplate, tableName, fields, values);
+            return result.ToString();
+        }
+
+        public static string GetAddRecordCommand(string tableName, string values)
+        {
+            StringBuilder result = new StringBuilder();
+            result.AppendFormat(insertRecordCommadTemplate, tableName, values);
             return result.ToString();
         }
 
@@ -83,6 +92,20 @@
         {
             StringBuilder result = new StringBuilder();
             result.AppendFormat(selectCommandTemplate, fields, tableName);
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Собирает и возвращает строку запроса обновления записи из таблицы tableName.
+        /// </summary>
+        /// <param name="tableName">Название таблицы.</param>
+        /// <param name="condition">Условия.</param>
+        /// <param name="fieldsAndValues">Поля и их новые значения в формате "field1 = val1, field2 = 'val2',..."</param>
+        /// <returns>Строка запроса обновления записи.</returns>
+        public static string GetUpdateRecordCommand(string tableName, string condition, string fieldsAndValues)
+        {
+            StringBuilder result = new StringBuilder();
+            result.AppendFormat(UpdateRecordCommandWithConditionTemplate, tableName, fieldsAndValues, condition);
             return result.ToString();
         }
 
@@ -125,63 +148,87 @@
         /// <param name="tableFields">Строка с названиями свойств. Названия разделяются запятыми.</param>
         /// <param name="fieldValues"> Строка со значениями свойств. Значения разделяются запятыми. Если тип свойства является 
         /// сущностью БД, то берется ее ID. </param>
-        public static void GetEntityPropertiesAndValues<T>(T entity, out string tableFields, out string fieldValues, bool getID = false) where T : Entity
+        /// <param name="getID">true если необходимо поле с ID добавить в строку запроса, иначе false.</param>
+        //public static void GetEntityPropertiesAndValues<T>(T entity, out string tableFields, out string fieldValues, bool getID = false) where T : Entity
+        //{
+        //    tableFields = string.Empty;
+        //    fieldValues = string.Empty;
+        //    Dictionary<string, object> propertiesAndValues = new Dictionary<string, object>();
+        //    PropertyInfo IDProperty = typeof(Entity).GetProperty(IDPropName);
+        //    //TableFieldNameAttribute tblFldNameAttr = null;
+        //    object value = null;
+        //    foreach (var item in entity.GetType().GetProperties())
+        //    {
+        //     //   tblFldNameAttr = item.GetCustomAttribute<TableFieldNameAttribute>();
+
+        //       // if(tblFldNameAttr == null || (!getID && item.Name == IDProperty.Name))// если аттрибут имени столбца не найден
+        //        {
+        //          //  continue;
+        //        }
+
+        //        value = null;
+
+        //        // если тип свойства является сущностью бд, то взять ее ID иначе взять ее значение.
+        //        value = item.PropertyType.IsSubclassOf(typeof(Entity)) ? (item.GetValue(entity) as Entity).ID : value = item.GetValue(entity);
+
+
+        //        if (item.PropertyType == typeof(string) || item.PropertyType == typeof(bool) || item.PropertyType == typeof(FormattedDate))
+        //        {
+        //            value = string.Format("'{0}'", value);
+        //        }
+
+        //     //   propertiesAndValues.Add(tblFldNameAttr.FieldName, value);
+        //    }
+
+        //    StringBuilder fields = new StringBuilder();
+        //    StringBuilder values = new StringBuilder();
+        //    string delimiter = ",";
+        //    int index = 1;
+
+        //    foreach (var item in propertiesAndValues)
+        //    {
+        //        fields.Append(item.Key);
+        //        values.Append(item.Value);
+
+        //        if (index < propertiesAndValues.Count)
+        //        {
+        //            fields.Append(delimiter);
+        //            values.Append(delimiter);
+        //        }
+
+        //        index++;
+        //    }
+
+        //    tableFields = fields.ToString();
+        //    fieldValues = values.ToString();
+        //}
+
+        public static string GetValueList(params object[] args)
         {
-            tableFields = string.Empty;
-            fieldValues = string.Empty;
-            Dictionary<string, object> propertiesAndValues = new Dictionary<string, object>();
-            PropertyInfo IDProperty = typeof(Entity).GetProperty(IDPropName);
-
-            foreach (var item in entity.GetType().GetProperties())
-            {
-                if(!getID && item.Name == IDProperty.Name)
-                {
-                    continue;
-                }
-
-                object value = null;
-
-                if (item.PropertyType.IsSubclassOf(typeof(Entity)))
-                {
-                    value = item == null ? null  : (item.GetValue(entity) as Entity).ID;
-                }
-                else
-                {
-                    value = item.GetValue(entity);
-                }
-
-                value = item.PropertyType.IsSubclassOf(typeof(Entity)) ? (item.GetValue(entity) as Entity).ID : 
-                                                                                item.GetValue(entity);
-
-                if (item.PropertyType == typeof(string) || item.PropertyType == typeof(bool) || item.PropertyType == typeof(FormattedDate))
-                {
-                    value = string.Format("'{0}'", value);
-                }
-                
-                propertiesAndValues.Add(item.Name, value);
-            }
-
-            StringBuilder fields = new StringBuilder();
-            StringBuilder values = new StringBuilder();
+            StringBuilder result = new StringBuilder();
             string delimiter = ",";
             int index = 1;
 
-            foreach (var item in propertiesAndValues)
+            foreach (var item in args)
             {
-                fields.Append(item.Key);
-                values.Append(item.Value);
-
-                if (index < propertiesAndValues.Count)
+                if ((item is string) || (item is bool) || (item is FormattedDate))
                 {
-                    fields.Append(delimiter);
-                    values.Append(delimiter);
+                    result.AppendFormat("'{0}'", item);
+                }
+                else
+                {
+                    result.Append(item);
+                }
+
+                if(index < args.Length)
+                {
+                    result.Append(delimiter);
                 }
 
                 index++;
             }
 
-            tableFields = fields.ToString();
-            fieldValues = values.ToString();
+            return result.ToString();
         }
 
         /// <summary>

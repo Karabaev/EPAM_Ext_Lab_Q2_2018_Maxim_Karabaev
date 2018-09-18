@@ -13,14 +13,14 @@
             this.userRepository = repos;
         }
 
-        public List<User> GetAllEntities()
+        public override List<User> GetAllEntities()
         {
-            return this.userRepository.GetAllEntities<User>();
+            return this.userRepository.GetAllEntities();
         }
 
-        public User GetEntity(int id)
+        public override User GetEntity(int id)
         {
-            return this.userRepository.GetEntity<User>(id);
+            return this.userRepository.GetEntity(id);
         }
 
         public override int RemoveEntity(int id)
@@ -28,7 +28,7 @@
             return this.userRepository.RemoveEntity(id);
         }
 
-        public bool SaveEntity(User entity)
+        public override bool SaveEntity(User entity)
         {
             return this.userRepository.SaveEntity(entity);
         }

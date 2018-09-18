@@ -48,7 +48,7 @@
         /// <param name="isBanned">Статус блокировки пользователя.</param>
         /// <param name="regDate">Дата регистрации пользователя.</param>
         /// <param name="email">Электронная почта пользователя.</param>
-        public User(int? id, string login, string pass, string publicName, Role role, bool isBanned, FormattedDate regDate, string email)
+        public User(int id, string login, string pass, string publicName, Role role, bool isBanned, FormattedDate regDate, string email)
         {
             base.ID = id;
             this.Login = login;
@@ -65,7 +65,7 @@
         /// </summary>
         /// <param name="obj">Другой объект.</param>
         /// <returns>true если объекты равны, иначе false.</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object obj) // todo pn убрать из проверки LikeAs и сравнить поля.
         {
             User other = obj as User;
 
@@ -93,7 +93,7 @@
 
             return  (this.Login == other.Login) &&
                     (this.PasswordHash == other.PasswordHash) &&
-                    this.UserRole.Equals(other.UserRole) &&
+                    this.UserRole.LikeAs(other.UserRole) &&
                     (this.IsBanned == other.IsBanned) &&
                     (this.PublicName == other.PublicName) &&
                     (this.Email == other.Email);
@@ -123,7 +123,9 @@
         /// <returns>Строка, ID и PublicName.</returns>
         public override string ToString()
         {
-            return string.Format("ID: {0}, Name: {1}", ID, PublicName);
+            return string.Format("ID: {0}, Login: {1}, PasswordHash: {2}, PublicName: {3}, UserRole {4}, IsBanned: {5}, RegDate: {6}" +
+                "Email: {7}", ID, this.Login, this.PasswordHash, this.PublicName, this.UserRole, this.IsBanned, this.RegistrationDate,
+                this.Email);
         }
 
         /// <summary>
@@ -132,9 +134,11 @@
         /// <param name="other">Другой объект сущности.</param>
         public override void Reinitialization(Entity other)
         {
-            User newUser = other as User;
-            if (newUser == null)
+            if (!(other is User newUser))
+            {
                 return;
+            }
+
             this.Login = newUser.Login;
             this.PasswordHash = newUser.PasswordHash;
             this.PublicName = newUser.PublicName;

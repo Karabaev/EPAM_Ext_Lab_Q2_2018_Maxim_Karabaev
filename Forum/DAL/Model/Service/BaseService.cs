@@ -5,14 +5,14 @@ using DAL.Model.Entities;
 
 namespace DAL.Model.Service
 {
-    public class BaseService<T> : IBaseService<T>
+    public class BaseService<T> : IBaseService<T> where T : Entity
     {
-        public virtual List<T> GetAllEntities<T>() where T : Entity, new()
+        public virtual List<T> GetAllEntities()
         {
             throw new NotImplementedException();
         }
 
-        public virtual T GetEntity<T>(int id) where T : Entity, new()
+        public virtual T GetEntity(int id)
         {
             throw new NotImplementedException();
         }
@@ -22,7 +22,7 @@ namespace DAL.Model.Service
             throw new NotImplementedException();
         }
 
-        public virtual bool SaveEntity<T>(T entity) where T : Entity
+        public virtual bool SaveEntity(T entity)
         {
             throw new NotImplementedException();
         }

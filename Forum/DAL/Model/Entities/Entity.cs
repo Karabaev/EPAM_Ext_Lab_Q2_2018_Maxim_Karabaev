@@ -5,7 +5,7 @@
     /// </summary>
     public abstract class Entity
     {
-        public int? ID { get; protected set; }
+        public int ID { get; protected set; }
 
         public abstract override bool Equals(object obj);
         public abstract bool LikeAs(Entity entity);

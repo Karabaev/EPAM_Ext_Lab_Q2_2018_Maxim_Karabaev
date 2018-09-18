@@ -28,15 +28,22 @@
             var factory = DbProviderFactories.GetFactory(connectionStringItem.ProviderName);
             return new UserRepository(connString, factory, new RoleRepository(connString, factory));
         }
-
+        
+        private RoleRepository GetRoleRepository()
+        {
+            var connectionStringItem = ConfigurationManager.ConnectionStrings[ConectionSringName];
+            var connString = connectionStringItem.ConnectionString;
+            var factory = DbProviderFactories.GetFactory(connectionStringItem.ProviderName);
+            return new RoleRepository(connString, factory);
+        }
         /// <summary>
         /// Тест метода User.Equals. При сравнении используются разные инстансы ролей и списков разрешений.
         /// </summary>
         [TestMethod]
         public void UserEqualsDifferentRoleInstancesTest()
         {
-            User user1 = new User(1, "u1", "u1", "u1", new Role(1, "r1", new List<Permission>()), false, DateTime.Now.Date, "u1@ya.ru");
-            User user2 = new User(1, "u1", "u1", "u1", new Role(1, "r1", new List<Permission>()), false, DateTime.Now.Date, "u1@ya.ru");
+            User user1 = new User(1, "u1", "u1", "u1", new Role(1, "r1", 1), false, DateTime.Now.Date, "u1@ya.ru");
+            User user2 = new User(1, "u1", "u1", "u1", new Role(1, "r1", 1), false, DateTime.Now.Date, "u1@ya.ru");
             Assert.IsTrue(user1.Equals(user2));
         }
 
@@ -46,7 +53,7 @@
         [TestMethod]
         public void UserEqualsSingleRoleInstanceTest()
         {
-            Role role = new Role(1, "r1", new List<Permission>());
+            Role role = new Role(1, "r1", 1);
             User user1 = new User(1, "u1", "u1", "u1", role, false, DateTime.Now.Date, "u1@ya.ru");
             User user2 = new User(1, "u1", "u1", "u1", role, false, DateTime.Now.Date, "u1@ya.ru");
             Assert.IsTrue(user1.Equals(user2));
@@ -59,7 +66,7 @@
         public void ReposSaveEntityTest()
         {
             UserRepository userRepos = this.GetUserRepository();
-            Role testRole = new Role(1, "r1", new List<Permission>());
+            Role testRole = new Role(1, "r1", 1);
             User testUser = new User(4, "u1", "u1", "u1", testRole, false, DateTime.Now, "u1@ya.ru");
             Assert.IsTrue(userRepos.SaveEntity(testUser));
 
@@ -82,14 +89,14 @@
         public void ReposRemoveOneExistEntity()
         {
             UserRepository userRepos = this.GetUserRepository();
-            User newUser = new User(null, "u", "u", "u", new Role(1, "r", new List<Permission>()), false, DateTime.Now, "u");
+            User newUser = new User(1, "u", "u", "u", new Role(1, "r", 1), false, DateTime.Now, "u");
 
             if(!userRepos.SaveEntity(newUser))
             {
                 Assert.Fail("Не удалось добавить запись в базу.");
             }
 
-            List<User> users = userRepos.GetAllEntities<User>();
+            List<User> users = userRepos.GetAllEntities();
             int? id = 0;
 
             if(users == null || users.Count == 0 || users[0] == null)
@@ -107,11 +114,15 @@
         public void ReposGetAllEntitiesTest()
         {
             UserRepository userRepos = this.GetUserRepository();
-            List<User> expectedUsers = new List<User>();
-            Role role = new Role(1, "r1", new List<Permission>());
+            RoleRepository roleRepos = this.GetRoleRepository();
+            Role addedRole = new Role(1, "r1", 1);
+            roleRepos.RemoveAllEntities();
+            roleRepos.SaveEntity(addedRole);
+            List<Role> roles = roleRepos.GetAllEntities();
+            List<User> expectedUsers = new List<User>();   
             FormattedDate date = new DateTime(2018, 08, 22);
-            expectedUsers.Add(new User(18, "u1", "u1", "u1", role, false, date, "u1@ya.ru"));
-            expectedUsers.Add(new User(18, "u2", "u2", "u2", role, false, date, "u2@ya.ru"));
+            expectedUsers.Add(new User(18, "u1", "u1", "u1", roles?[0], false, date, "u1@ya.ru"));
+            expectedUsers.Add(new User(18, "u2", "u2", "u2", roles?[0], false, date, "u2@ya.ru"));
             userRepos.RemoveAllEntities();
 
             foreach (var item in expectedUsers)
@@ -119,7 +130,7 @@
                 userRepos.SaveEntity(item);
             }
 
-            List<User> users = userRepos.GetAllEntities<User>();
+            List<User> users = userRepos.GetAllEntities();
 
             if (expectedUsers.Count != users.Count)
             {
@@ -152,7 +163,7 @@
         {
             UserRepository userRepos = this.GetUserRepository();
             List<User> addedUsers = new List<User>();
-            Role role = new Role(1, "r1", new List<Permission>());
+            Role role = new Role(1, "r1", 1);
             FormattedDate date = new DateTime(2018, 08, 22);
             addedUsers.Add(new User(18, "u1", "u1", "u1", role, false, date, "u1@ya.ru"));
             addedUsers.Add(new User(18, "u2", "u2", "u2", role, false, date, "u2@ya.ru"));
@@ -163,7 +174,7 @@
                 userRepos.SaveEntity(item);
             }
 
-            List<User> users = userRepos.GetAllEntities<User>(DisplayUsersCount);
+            List<User> users = userRepos.GetAllEntities(DisplayUsersCount);
 
             if (DisplayUsersCount != users.Count)
             {
@@ -186,14 +197,14 @@
         public void ReposGetEntityWithExpectedIDTest()
         {
             UserRepository userRepos = this.GetUserRepository();
-            List<User> users = userRepos.GetAllEntities<User>();
+            List<User> users = userRepos.GetAllEntities();
             
             if (users == null || !users.Any() || users[0] == null)
             {
                 Assert.Fail("Не удалось загрузить пользователей из базы.");
             }
             User expectedUser = users[0];
-            User user = userRepos.GetEntity<User>(expectedUser.ID);
+            User user = userRepos.GetEntity(expectedUser.ID);
             Assert.IsTrue(user.Equals(expectedUser));
         }
 
@@ -204,7 +215,7 @@
         public void ReposGetEntityWithNotExistedTest()
         {
             UserRepository userRepos = this.GetUserRepository();
-            User user = userRepos.GetEntity<User>(NotExistID);
+            User user = userRepos.GetEntity(NotExistID);
             Assert.IsNull(user);
         }
     }

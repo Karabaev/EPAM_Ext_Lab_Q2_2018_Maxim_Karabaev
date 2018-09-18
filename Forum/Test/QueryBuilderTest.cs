@@ -92,20 +92,20 @@
         /// <summary>
         /// Тест метода QueryBuilder.GetEntityPropertiesAndValues.
         /// </summary>
-        [TestMethod]
-        public void GetEntityPropertiesAndValuesTest()
-        {
-            string result1 = "";
-            string result2 = "";
-            Role testRole = new Role(3, "r1", new List<Permission>());
-            User testUser = new User(0, "u1", "u1", "u1", testRole, false, new FormattedDate(DateTime.Now), "u1@ya.ru");
-            QueryBuilder.GetEntityPropertiesAndValues(testUser, out result1, out result2);
-            Console.WriteLine(result1 + "\n" + result2);
-            QueryBuilder.GetEntityPropertiesAndValues(testRole, out result1, out result2);
-            Console.WriteLine(result1 + "\n" + result2);
-            QueryBuilder.GetEntityPropertiesAndValues(testRole, out result1, out result2, true);
-            Console.WriteLine(result1 + "\n" + result2);
-        }
+        //[TestMethod]
+        //public void GetEntityPropertiesAndValuesTest()
+        //{
+        //    string result1 = "";
+        //    string result2 = "";
+        //    Role testRole = new Role(3, "r1");
+        //    User testUser = new User(0, "u1", "u1", "u1", testRole, false, new FormattedDate(DateTime.Now), "u1@ya.ru");
+        //    //QueryBuilder.GetEntityPropertiesAndValues(testUser, out result1, out result2);
+        //    Console.WriteLine(result1 + "\n" + result2);
+        //    //QueryBuilder.GetEntityPropertiesAndValues(testRole, out result1, out result2);
+        //    Console.WriteLine(result1 + "\n" + result2);
+        //    QueryBuilder.GetEntityPropertiesAndValues(testRole, out result1, out result2, true);
+        //    Console.WriteLine(result1 + "\n" + result2);
+        //}
 
         /// <summary>
         /// Тест QueryBuilder.GetStoredProcedureDataReader с несуществующей процедурой.
@@ -138,6 +138,24 @@
             parameter2.ParameterName = "@SomeVal2";
             parameter2.Value = "Hello world!";
             Assert.IsNull(QueryBuilder.GetStoredProcedureDataReader(connection, "GetAllUsers", parameter1, parameter2));
+        }
+
+        [TestMethod]
+        public void GetValueListTest()
+        {
+            string expected = "1,2,3,'Steve','True','False',57794";
+            string actual = QueryBuilder.GetValueList(1, 2, 3, "Steve", true, false, 57794);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetValueListTestWthStringVariable()
+        {
+            string expected = "'Steve'";
+            string name = "Steve";
+            string actual = QueryBuilder.GetValueList(name);
+            Console.WriteLine(expected + " " + actual);
+            Assert.AreEqual(expected, actual);
         }
     }
 }

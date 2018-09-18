@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -45,7 +46,6 @@
     <Compile Include="Model\Entities\Entity.cs" />
     <Compile Include="Model\Entities\ExtraContent.cs" />
     <Compile Include="Model\Entities\Message.cs" />
-    <Compile Include="Model\Entities\Permission.cs" />
     <Compile Include="Model\Repository\Base\BaseRepository.cs" />
     <Compile Include="Model\Repository\Base\IBaseRepository.cs" />
     <Compile Include="Model\Repository\Role\IRoleRepository.cs" />

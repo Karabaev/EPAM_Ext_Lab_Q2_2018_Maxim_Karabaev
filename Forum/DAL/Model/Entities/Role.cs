@@ -1,9 +1,6 @@
 ﻿namespace DAL.Model.Entities
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     /// <summary>
     /// Уровень доступа (админ, модератор, пользователь, гость...).
     /// </summary>
@@ -14,23 +11,22 @@
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// Список прав.
+        /// Уровень доступа.
         /// </summary>
-        public List<Permission> Permissions { get; set; }
+        public int AccessLevel { get; set; }
 
-        public Role(int? id, string name, List<Permission> permissions)
+        public Role(int id, string name, int level)
         {
             base.ID = id;
             this.Name = name;
-            this.Permissions = permissions;
+            this.AccessLevel = level;
         }
+
+        public Role() { }
 
         public override bool Equals(object obj)
         {
-            Role other = obj as Role;
-
-            if (other == null)
-
+            if (!(obj is Role other))
             {
                 return false;
             }
@@ -47,7 +43,7 @@
                 return false;
             }
 
-            return (this.Name == other.Name) && this.Permissions.All(other.Permissions.Contains);
+            return this.Name == other.Name && this.AccessLevel == other.AccessLevel;
         }
 
         public override int GetHashCode()
@@ -56,7 +52,7 @@
 
             try
             {
-                result = base.ID.GetHashCode() + this.Name.GetHashCode() + this.Permissions.GetHashCode();
+                result = base.ID.GetHashCode() + this.Name.GetHashCode() + this.AccessLevel;
             }
             catch (StackOverflowException ex)
             {
@@ -68,10 +64,18 @@
 
         public override void Reinitialization(Entity other)
         {
-            Role newRole = other as Role;
-            if (newRole == null) return;
+            if (!(other is Role newRole))
+            {
+                return;
+            }
+
             this.Name = newRole.Name;
-            this.Permissions = newRole.Permissions;
+            this.AccessLevel = newRole.AccessLevel;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("Role ID:{0}, Name: {1}, AccessLevel: {2}", this.ID, this.Name, this.AccessLevel);
         }
     }
 }

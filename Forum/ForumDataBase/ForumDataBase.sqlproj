@@ -69,8 +69,6 @@
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Scripts\Permissions.sql" />
-    <Build Include="Scripts\RolePermissions.sql" />
     <Build Include="Scripts\Roles.sql" />
     <Build Include="Scripts\Users.sql" />
   </ItemGroup>

@@ -14,7 +14,7 @@
         public NinjectDependencyResolver(IKernel kernel)
         {
             this.kernel = kernel;
-            AddBindings();
+            this.AddBindings();
         }
 
         public object GetService(Type serviceType)
@@ -31,6 +31,7 @@
         {
             this.kernel.Bind<IUserService>().To<UserService>();
             this.kernel.Bind<IUserRepository>().To<UserRepository>();
+            this.kernel.Bind<IRoleRepository>().To<RoleRepository>();
         }
 
     }

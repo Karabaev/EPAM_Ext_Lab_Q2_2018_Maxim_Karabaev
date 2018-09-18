@@ -1,0 +1,29 @@
+﻿@model Forum.Models.RoleEditViewModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.ID)
+<div>
+    @Html.LabelFor(model => model.Name)
+    @Html.EditorFor(model => model.Name)
+</div>
+<div>
+    @Html.LabelFor(model => model.AccessLevel)
+    @Html.EditorFor(model => model.AccessLevel)
+</div>
+<div>
+    <input type="submit" value="Save" />
+    @Html.ActionLink("Cancel", "Index")
+</div>
+}
+
+<div>
+    
+</div>
