@@ -24,7 +24,7 @@ namespace DAL.Model.Entities
         /// </summary>
         public string Content { get; set; }
 
-        public ExtraContent Extra { get; set; }
+        public MessageAttacment Extra { get; set; }
 
         public override string ToString()
         {

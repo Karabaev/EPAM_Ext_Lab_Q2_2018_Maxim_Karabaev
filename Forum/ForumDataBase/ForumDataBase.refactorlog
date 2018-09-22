@@ -42,4 +42,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ContentLink" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="297076ab-534f-48d2-80d7-81511179aad1" ChangeDateTime="09/22/2018 09:24:21">
+    <Property Name="ElementName" Value="[dbo].[MessageAttachments].[ExtraContentID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MessageAttachments]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ID" />
+  </Operation>
 </Operations>

@@ -4,14 +4,14 @@ using System.Text;
 
 namespace DAL.Model.Entities
 {
-    public class ExtraContent : Entity
+    public class MessageAttacment : Entity
     {
         public object Content { get; set; }
 
 
         public override bool Equals(object obj)
         {
-            ExtraContent other = obj as ExtraContent;
+            MessageAttacment other = obj as MessageAttacment;
             if (other == null) return false;
             return (ID == other.ID) && (Content == Content); 
         }
@@ -19,6 +19,7 @@ namespace DAL.Model.Entities
         public override int GetHashCode()
         {
             int result = 0;
+
             try
             {
                 result = ID.GetHashCode() + Content.GetHashCode();
@@ -37,7 +38,7 @@ namespace DAL.Model.Entities
 
         public override void Reinitialization(Entity other)
         {
-            ExtraContent newExtra = other as ExtraContent;
+            MessageAttacment newExtra = other as MessageAttacment;
             if (newExtra == null) return;
             Content = newExtra.Content;
         }
