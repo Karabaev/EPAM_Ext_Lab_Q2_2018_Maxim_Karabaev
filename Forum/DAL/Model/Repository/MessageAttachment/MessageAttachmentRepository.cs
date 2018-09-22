@@ -7,35 +7,63 @@
     using Entities;
     using Core;
 
-    /// <summary>
-    /// Репозиторий ролей.
-    /// </summary>
-    public class RoleRepository : BaseRepository<Role>, IRoleRepository
+    public class MessageAttachmentRepository : BaseRepository<MessageAttachment>, IMessageAttachmentRepository
     {
-        public RoleRepository() { }
-
         /// <summary>
         /// Инициализирует объект в памяти.
         /// </summary>
-        /// <param name="connString">Строка подключения к базе.</param>
-        /// <param name="factory">Поставщик классов для источника данных.</param>
-        public RoleRepository(string connString, DbProviderFactory factory) : base(connString, factory)
+        public MessageAttachmentRepository()
         {
+            this.messageRepository = new MessageRepository();
         }
 
         /// <summary>
         /// Название таблицы.
         /// </summary>
-        public override string TableName { get; protected set; } = "Roles";
+        public override string TableName { get; protected set; } = "MessageAttachments";
+        /// <summary>
+        /// Репозиторий сообщений.
+        /// </summary>
+        private readonly MessageRepository messageRepository;
 
         /// <summary>
-        /// Возвращает роль из базы по ее ID.
+        /// Получить все записи сущности.
         /// </summary>
-        /// <param name="id">ID роли.</param>
-        /// <returns>Роль с указанным ID.</returns>
-        public override Role GetEntity(int? id)
+        /// <returns>Контейнер с объектами сущности.</returns>
+        public override List<MessageAttachment> GetAllEntities()
         {
-            if(!id.HasValue)
+            using (base.connection = base.factory.CreateConnection())
+            {
+                base.connection.ConnectionString = connectionString;
+                base.connection.Open();
+                base.command = base.connection.CreateCommand();
+                base.command.CommandText = QueryBuilder.GetSelectRecordCommand(this.TableName, "*");
+                base.command.CommandType = CommandType.Text;
+                DbDataReader reader = command.ExecuteReader();
+                List<MessageAttachment> result = new List<MessageAttachment>();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        result.Add(new MessageAttachment(   (int)reader["ID"],
+                                                            (string)reader["ContentLink"],
+                                                            this.messageRepository.GetEntity((int)reader["MessageID"])));
+                    }
+                }
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Возвращает объект из базы по его ID.
+        /// </summary>
+        /// <param name="id">ID объекта.</param>
+        /// <returns>Объект с указанным ID.</returns>
+        public override MessageAttachment GetEntity(int? id)
+        {
+            if (!id.HasValue)
             {
                 return null;
             }
@@ -48,40 +76,14 @@
                 base.command.CommandText = QueryBuilder.GetSelectRecordCommand(this.TableName,
                                                                             "*",
                                                                             "ID = {0}", id.ToString());
-                Role result = null;
+                MessageAttachment result = null;
                 DbDataReader reader = command.ExecuteReader();
 
                 if (reader.HasRows && reader.Read())
                 {
-                    result = new Role((int)reader["ID"], (string)reader["Name"], (int)reader["AccessLevel"]);
-                }
-
-                return result;
-            }
-        }
-
-        /// <summary>
-        /// Получить все записи сущности.
-        /// </summary>
-        /// <returns>КОнтейрен с объектами сущности.</returns>
-        public override List<Role> GetAllEntities()
-        {
-            using (base.connection = base.factory.CreateConnection())
-            {
-                base.connection.ConnectionString = connectionString;
-                base.connection.Open();
-                base.command = base.connection.CreateCommand();
-                base.command.CommandText = QueryBuilder.GetSelectRecordCommand(this.TableName, "*");
-                base.command.CommandType = CommandType.Text;
-                DbDataReader reader = command.ExecuteReader();
-                List<Role> result = new List<Role>();
-
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        result.Add(new Role((int)reader["ID"], (string)reader["Name"], (int)reader["AccessLevel"]));
-                    }
+                    result = new MessageAttachment( (int)reader["ID"],
+                                                    (string)reader["ContentLink"],
+                                                    this.messageRepository.GetEntity((int)reader["MessageID"]));
                 }
 
                 return result;
@@ -93,14 +95,14 @@
         /// </summary>
         /// <param name="entity">Добавляемая сущность.</param>
         /// <returns>true в случае успеха, иначе false.</returns>
-        public override bool SaveEntity(Role entity)
+        public override bool SaveEntity(MessageAttachment entity)
         {
             using (base.connection = base.factory.CreateConnection())
             {
                 base.connection.ConnectionString = connectionString;
                 base.connection.Open();
                 base.command = base.connection.CreateCommand();
-                string fieldValues = QueryBuilder.GetValueList(entity.Name, entity.AccessLevel);
+                string fieldValues = QueryBuilder.GetValueList(entity.ContentLink, entity.Message.ID);
                 base.command.CommandText = QueryBuilder.GetAddRecordCommand(this.TableName, fieldValues);
                 base.command.CommandType = CommandType.Text;
 
@@ -120,9 +122,9 @@
         /// </summary>
         /// <param name="entity">Изменяемая сущность.ы</param>
         /// <returns>true в случае успеха, иначе false.</returns>
-        public override bool UpdateEntity(Role entity)
+        public override bool UpdateEntity(MessageAttachment entity)
         {
-            if(entity == null || this.GetEntity(entity.ID) == null)
+            if (entity == null || this.GetEntity(entity.ID) == null)
             {
                 return false;
             }
@@ -134,7 +136,8 @@
                 base.command = base.connection.CreateCommand();
                 base.command.CommandText = QueryBuilder.GetUpdateRecordCommand(this.TableName,
                                                                                 string.Format("ID = {0}", entity.ID),
-                                                                                string.Format("Name = '{0}', AccessLevel = {1}", entity.Name, entity.AccessLevel));
+                                                                                string.Format("ContentLink = '{0}', MessageID = {1}",
+                                                                                entity.ContentLink, entity.Message.ID));
 
                 try
                 {
@@ -144,7 +147,7 @@
                 {
                     throw ex;
                 }
-            }  
+            }
         }
 
         /// <summary>
@@ -152,7 +155,7 @@
         /// </summary>
         /// <param name="count"></param>
         /// <returns></returns>
-        public override List<Role> GetAllEntities(int count)
+        public override List<Section> GetAllEntities(int count)
         {
             throw new NotImplementedException();
         }

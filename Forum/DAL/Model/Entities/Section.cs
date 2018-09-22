@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    /// Раздел форума
+    /// Раздел форума.
     /// </summary>
     public class Section : Entity
     {
@@ -19,6 +19,21 @@
         /// Ссылка на раздел
         /// </summary>
         public string Link { get; set; }
+
+        /// <summary>
+        /// Инициализирует объект в памяти.
+        /// </summary>
+        /// /// <param name="id">Идентификатор раздела.</param>
+        /// <param name="name">Название раздела.</param>
+        /// <param name="desc">Описание раздела.</param>
+        /// <param name="link">Ссылка на раздел.</param>
+        public Section(int id, string name, string desc, string link)
+        {
+            base.ID = id;
+            this.Name = name;
+            this.Description = desc;
+            this.Link = link;
+        }
 
         /// <summary>
         /// Сравнивает объект с другим.

@@ -20,9 +20,25 @@
         /// </summary>
         public string Content { get; set; }
         /// <summary>
-        /// Вложение.
+        /// Тема.
         /// </summary>
-        public MessageAttacment Attacment { get; set; }
+        public Topic Topic { get; set; }
+
+        /// <summary>
+        /// Инициализирует объект в памяти.
+        /// </summary>
+        /// <param name="id">Идентификатор сообщения.</param>
+        /// <param name="author">Автор сообщения.</param>
+        /// <param name="dateTime">Дата и время публикации сообщения.</param>
+        /// <param name="content">Содержание сообщения.</param>
+        public Message(int id, User author, DateTime dateTime, string content, Topic topic)
+        {
+            base.ID = id;
+            this.Author = author;
+            this.CreationDate = dateTime;
+            this.Content = content;
+            this.Topic = topic;
+        }
 
         /// <summary>
         /// Возвращает строкое представление объекта.
@@ -61,8 +77,8 @@
                 result = this.ID.GetHashCode() +
                     this.Author.GetHashCode() +
                     this.CreationDate.GetHashCode() +
-                    this.Content.GetHashCode() + 
-                    this.Attacment.GetHashCode();
+                    this.Content.GetHashCode() +
+                    this.Topic.GetHashCode();
             }
             catch(Exception ex)
             {
@@ -86,7 +102,7 @@
             this.Author.Equals(message.Author);
             this.CreationDate = message.CreationDate;
             this.Content = message.Content;
-            this.Attacment = message.Attacment;
+            this.Topic = message.Topic;
         }
 
         /// <summary>
@@ -104,7 +120,7 @@
             return this.Author.Equals(other.Author) &&
                 this.CreationDate == other.CreationDate &&
                 this.Content == other.Content &&
-                this.Attacment == other.Attacment;
+                this.Topic.Equals(other.Topic);
         }
     }
 }

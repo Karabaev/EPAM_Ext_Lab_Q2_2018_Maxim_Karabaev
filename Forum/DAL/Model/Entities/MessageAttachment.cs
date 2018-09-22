@@ -5,7 +5,7 @@
     /// <summary>
     /// Приложение к сообщению.
     /// </summary>
-    public class MessageAttacment : Entity
+    public class MessageAttachment : Entity
     {
         /// <summary>
         /// Ссылка на приложени.
@@ -16,6 +16,13 @@
         /// </summary>
         public Message Message { get; set; }
 
+        public MessageAttachment(int id, string link, Message message)
+        {
+            base.ID = id;
+            this.ContentLink = link;
+            this.Message = message;
+        }
+
         /// <summary>
         /// Сравнивает объект с другим.
         /// </summary>
@@ -23,7 +30,7 @@
         /// <returns>true если все свойства сопадают, иначе false.</returns>
         public override bool Equals(object obj)
         {
-            if (!(obj is MessageAttacment other))
+            if (!(obj is MessageAttachment other))
             {
                 return false;
             }
@@ -57,7 +64,7 @@
         /// <returns>true если свойства, кроме идентификатора сопадают, иначе false.</returns>
         public override bool LikeAs(Entity entity)
         {
-            if (!(entity is MessageAttacment other))
+            if (!(entity is MessageAttachment other))
             {
                 return false;
             }
@@ -71,7 +78,7 @@
         /// <param name="other"></param>
         public override void Reinitialization(Entity other)
         {
-            if (!(other is MessageAttacment newAttach))
+            if (!(other is MessageAttachment newAttach))
             {
                 return;
             }

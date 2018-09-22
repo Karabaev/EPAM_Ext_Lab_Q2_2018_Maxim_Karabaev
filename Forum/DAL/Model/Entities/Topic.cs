@@ -3,26 +3,47 @@
     using System;
 
     /// <summary>
-    /// Тема на форуме
+    /// Тема на форуме.
     /// </summary>
     public class Topic : Entity
     {
         /// <summary>
-        /// заголовок темы
+        /// Заголовок темы.
         /// </summary>
         public string Caption { get; set; }
         /// <summary>
-        /// Кем опубликована тема
+        /// Кем опубликована тема.
         /// </summary>
         public User Author { get; set; }
         /// <summary>
-        /// Когда опубликована тема
+        /// Когда опубликована тема.
         /// </summary>
         public DateTime CreationDate { get; set; }
         /// <summary>
-        /// Ссылка на тему
+        /// Ссылка на тему.
         /// </summary>
         public string Link { get; set; }
+        /// <summary>
+        /// Раздел.
+        /// </summary>
+        public Section Section { get; set; }
+        /// <summary>
+        /// Инициализирует объект в памяти.
+        /// </summary>
+        /// <param name="id">Идентификатор темы.</param>
+        /// <param name="cap">Заголовок темы.</param>
+        /// <param name="user">Автор темы.</param>
+        /// <param name="date">Дата и время созадния темы.</param>
+        /// <param name="link">Ссылка на тему.</param>
+        public Topic(int id, string cap, User user, DateTime date, string link, Section section)
+        {
+            base.ID = id;
+            this.Caption = cap;
+            this.Author = user;
+            this.CreationDate = date;
+            this.Link = link;
+            this.Section = section;
+        }
 
         /// <summary>
         /// Сравнивает объект с другим.
@@ -54,7 +75,8 @@
             return  this.Caption == other.Caption &&
                     this.Author.Equals(other.Author) &&
                     this.CreationDate == other.CreationDate &&
-                    this.Link == other.Link;
+                    this.Link == other.Link &&
+                    this.Section.Equals(other.Section);
         }
 
         /// <summary>
@@ -71,7 +93,8 @@
                             this.Caption.GetHashCode() + 
                             this.Author.GetHashCode() + 
                             this.CreationDate.GetHashCode() + 
-                            this.Link.GetHashCode();
+                            this.Link.GetHashCode() +
+                            this.Section.GetHashCode();
             }
             catch (Exception ex)
             {
@@ -96,6 +119,7 @@
             this.Author = newTopic.Author;
             this.CreationDate = newTopic.CreationDate;
             this.Link = newTopic.Link;
+            this.Section = newTopic.Section;
         }
     }
 }
