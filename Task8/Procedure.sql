@@ -124,7 +124,7 @@ IF EXISTS (
         FROM sys.procedures 
         WHERE NAME = 'IsBoss' AND type = 'P')
 BEGIN
-	DROP PROCEDURE Northwind.IsBoss
+	DROP PROCEDURE Northwind.IsBoss -- просили функцию, а не хранимку
 END
 GO
 CREATE PROCEDURE Northwind.IsBoss

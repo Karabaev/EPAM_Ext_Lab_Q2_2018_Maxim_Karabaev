@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="c98a0743-2b66-4a7b-a636-a167b5e4a5ed" ChangeDateTime="09/22/2018 08:52:53">
+    <Property Name="ElementName" Value="[dbo].[Messages].[MessageID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Messages]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="61500020-2b25-472b-9544-e261fad52a09" ChangeDateTime="09/22/2018 08:53:08">
+    <Property Name="ElementName" Value="[dbo].[Topics].[TopicID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Topics]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9aea0982-8a58-4cf9-8138-5697ec18b2ad" ChangeDateTime="09/22/2018 08:53:15">
+    <Property Name="ElementName" Value="[dbo].[Topics].[CreatorID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Topics]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AuthorID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0bd2065b-2ec9-4e79-8590-997b6d2c88ff" ChangeDateTime="09/22/2018 08:53:38">
+    <Property Name="ElementName" Value="[dbo].[Sections].[SectionID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Sections]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="93d51d74-5b0a-48eb-9a88-f75461d1174a" ChangeDateTime="09/22/2018 09:06:31">
+    <Property Name="ElementName" Value="[dbo].[Messages].[CreatorID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Messages]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AuthorID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="31765428-eaee-41da-84cc-e77003bc22ce" ChangeDateTime="09/22/2018 09:13:49">
+    <Property Name="ElementName" Value="[dbo].[MessageAttachments].[ContentPath]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MessageAttachments]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ContentLink" />
+  </Operation>
+</Operations>

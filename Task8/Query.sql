@@ -31,7 +31,7 @@ SELECT 'IsBoss' = @isBoss;
 
 SELECT OrderID, ShippedDate, ShipVia
 FROM Northwind.Orders
-WHERE ShippedDate > '19960506' AND ShipVia >= 2
+WHERE ShippedDate > '19960506' AND ShipVia >= 2 --как ты понимаешь, где у тебя месяц, а где у тебя дата? Нужно сделать запрос независимым от культуры. CONVERT(DATETIME, '19980506', 101)
 -- Булево значение «неизвестно» ведет себя также, как «ложь» — строка, на которой предикат принимает значение «неизвестно», 
 -- не включается в результат запроса
 
@@ -56,7 +56,7 @@ CASE
 	WHEN ShippedDate IS NULL THEN 'Not shipped' ELSE CONVERT(nchar, ShippedDate) 
 END as 'Shipped date'
 FROM Northwind.Orders
-WHERE ShippedDate >'19980506' OR ShippedDate IS NULL
+WHERE ShippedDate >'19980506' OR ShippedDate IS NULL--аналогично
 
 --2.1	Выбрать из таблицы Customers всех заказчиков, проживающих в USA и Canada. Запрос сделать с только помощью оператора IN. 
 --Высвечивать колонки с именем пользователя и названием страны в результатах запроса. Упорядочить результаты запроса по имени 
@@ -119,7 +119,7 @@ ORDER BY Country
 
 SELECT ProductName
 FROM Northwind.Products
-WHERE ProductName LIKE 'cho_olade'
+WHERE ProductName LIKE 'cho_olade'--запрос некорректный. Должна вывестись ещё одна запись (в формулировке же написано :С)
 --Проверить работу скрипта!
 
 --5.1	Найти общую сумму всех заказов из таблицы Order Details с учетом количества закупленных товаров и скидок по ним. 
@@ -302,99 +302,99 @@ ORDER BY Word
 --Напишите скрипт создания сущностей пользователя, ролей и зависимых сущностей (достаточных для выполнения CRUD операций над пользователями и выдачи им определенных ролей)
 --*Напишите скрипт создания оставшихся сущностей вашей диаграммы. 
 
---Создание базы
-IF NOT EXISTS(SELECT * FROM sys.databases 
-          WHERE name='Forum')
-BEGIN
-	CREATE DATABASE Forum
-	USE Forum
-END;
+----Создание базы
+--IF NOT EXISTS(SELECT * FROM sys.databases 
+--          WHERE name='Forum')
+--BEGIN
+--	CREATE DATABASE Forum
+--	USE Forum
+--END;
 
---Таблица ролей
-IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Roles' AND xtype = 'U') 
-BEGIN 
-	CREATE TABLE Roles(
-		RoleID INT IDENTITY(1, 1) NOT NULL PRIMARY KEY, 
-		[Name] VARCHAR(50) NULL)
-END;
+----Таблица ролей
+--IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Roles' AND xtype = 'U') 
+--BEGIN 
+--	CREATE TABLE Roles(
+--		RoleID INT IDENTITY(1, 1) NOT NULL PRIMARY KEY, 
+--		[Name] VARCHAR(50) NULL)
+--END;
 
---Таблица прав
-IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Permissions' AND xtype = 'U') 
-BEGIN 
-	CREATE TABLE Permissions(
-		[PermissionID] INT IDENTITY(1, 1) NOT NULL PRIMARY KEY, 
-		[Name] VARCHAR(50) NULL, 
-		[Description] VARCHAR(100) NULL)
-END;
+----Таблица прав
+--IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Permissions' AND xtype = 'U') 
+--BEGIN 
+--	CREATE TABLE Permissions(
+--		[PermissionID] INT IDENTITY(1, 1) NOT NULL PRIMARY KEY, 
+--		[Name] VARCHAR(50) NULL, 
+--		[Description] VARCHAR(100) NULL)
+--END;
 
---Таблица наличия прав к ролях
-IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'RolePermissions' AND xtype = 'U') 
-BEGIN 
-	CREATE TABLE RolePermissions(
-		[RPID] INT NOT NULL PRIMARY KEY, 
-		[PermissionID] INT NULL, 
-		[RoleID] INT NULL, 
-		CONSTRAINT [FK_RolePermissions_ToTable] FOREIGN KEY (PermissionID) REFERENCES [Permissions]([PermissionID]), 
-		CONSTRAINT [FK_RolePermissions_ToTable_1] FOREIGN KEY ([RoleID]) REFERENCES [Roles]([RoleID]))
-END;
+----Таблица наличия прав к ролях
+--IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'RolePermissions' AND xtype = 'U') 
+--BEGIN 
+--	CREATE TABLE RolePermissions(
+--		[RPID] INT NOT NULL PRIMARY KEY, 
+--		[PermissionID] INT NULL, 
+--		[RoleID] INT NULL, 
+--		CONSTRAINT [FK_RolePermissions_ToTable] FOREIGN KEY (PermissionID) REFERENCES [Permissions]([PermissionID]), 
+--		CONSTRAINT [FK_RolePermissions_ToTable_1] FOREIGN KEY ([RoleID]) REFERENCES [Roles]([RoleID]))
+--END;
 
---Таблица пользователей
-IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Users' AND xtype = 'U') 
-BEGIN 
-	CREATE TABLE Users(
-		[UserID] INT IDENTITY(1, 1) NOT NULL PRIMARY KEY, 
-		[Login] VARCHAR(50) NULL, 
-		[Password] VARCHAR(100) NULL, 
-		[PublicName] VARCHAR(50) NULL, 
-		[UserRoleID] INT NULL, 
-		[IsBanned] BIT NULL, 
-		[RegistrationDate] DATE NULL, 
-		CONSTRAINT [FK_Users_ToTable] FOREIGN KEY ([UserRoleID]) REFERENCES [Roles]([RoleID]))
-END;
+----Таблица пользователей
+--IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Users' AND xtype = 'U') 
+--BEGIN 
+--	CREATE TABLE Users(
+--		[UserID] INT IDENTITY(1, 1) NOT NULL PRIMARY KEY, 
+--		[Login] VARCHAR(50) NULL, 
+--		[Password] VARCHAR(100) NULL, 
+--		[PublicName] VARCHAR(50) NULL, 
+--		[UserRoleID] INT NULL, 
+--		[IsBanned] BIT NULL, 
+--		[RegistrationDate] DATE NULL, 
+--		CONSTRAINT [FK_Users_ToTable] FOREIGN KEY ([UserRoleID]) REFERENCES [Roles]([RoleID]))
+--END;
 
---Таблица разделов форума
-IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Sections' AND xtype = 'U') 
-BEGIN 
-	CREATE TABLE Sections(
-	[SectionID] INT NOT NULL PRIMARY KEY, 
-    [Name] VARCHAR(50) NULL, 
-    [Description] VARCHAR(100) NULL, 
-    [Link] VARCHAR(1000) NULL)
-END;
+----Таблица разделов форума
+--IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Sections' AND xtype = 'U') 
+--BEGIN 
+--	CREATE TABLE Sections(
+--	[SectionID] INT NOT NULL PRIMARY KEY, 
+--    [Name] VARCHAR(50) NULL, 
+--    [Description] VARCHAR(100) NULL, 
+--    [Link] VARCHAR(1000) NULL)
+--END;
 
---Таблица тем
-IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Topics' AND xtype = 'U') 
-BEGIN 
-	CREATE TABLE Topics(
-	[TopicID] INT NOT NULL PRIMARY KEY, 
-    [Caption] VARCHAR(100) NULL, 
-    [CreatorID] INT NULL, 
-    [CreationDate] DATE NULL, 
-    [Link] VARCHAR(1000) NULL, 
-    [SectionID] INT NULL, 
-    CONSTRAINT [FK_Topics_ToTable] FOREIGN KEY ([CreatorID]) REFERENCES [Users]([UserID]), 
-    CONSTRAINT [FK_Topics_ToTable_1] FOREIGN KEY (SectionID) REFERENCES Sections(SectionID))
-END;
+----Таблица тем
+--IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Topics' AND xtype = 'U') 
+--BEGIN 
+--	CREATE TABLE Topics(
+--	[TopicID] INT NOT NULL PRIMARY KEY, 
+--    [Caption] VARCHAR(100) NULL, 
+--    [CreatorID] INT NULL, 
+--    [CreationDate] DATE NULL, 
+--    [Link] VARCHAR(1000) NULL, 
+--    [SectionID] INT NULL, 
+--    CONSTRAINT [FK_Topics_ToTable] FOREIGN KEY ([CreatorID]) REFERENCES [Users]([UserID]), 
+--    CONSTRAINT [FK_Topics_ToTable_1] FOREIGN KEY (SectionID) REFERENCES Sections(SectionID))
+--END;
 
---Таблица сообщений
-IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Messages' AND xtype = 'U') 
-BEGIN 
-	CREATE TABLE [Messages](
-	[MessageID] INT NOT NULL PRIMARY KEY, 
-    [CreatorID] INT NULL, 
-    [CreationDate] DATE NULL, 
-    [Content] TEXT NULL, 
-    [ExtraContentID] INT NULL, 
-    [TopicID] INT NULL, 
-    CONSTRAINT [FK_Messages_ToTable] FOREIGN KEY (CreatorID) REFERENCES Users(UserID), 
-    CONSTRAINT [FK_Messages_ToTable_1] FOREIGN KEY (ExtraContentID) REFERENCES ExtraContents(ExtraContentID), 
-    CONSTRAINT [FK_Messages_ToTable_2] FOREIGN KEY (TopicID) REFERENCES Topics(TopicID))
-END;
+----Таблица сообщений
+--IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Messages' AND xtype = 'U') 
+--BEGIN 
+--	CREATE TABLE [Messages](
+--	[MessageID] INT NOT NULL PRIMARY KEY, 
+--    [CreatorID] INT NULL, 
+--    [CreationDate] DATE NULL, 
+--    [Content] TEXT NULL, 
+--    [ExtraContentID] INT NULL, 
+--    [TopicID] INT NULL, 
+--    CONSTRAINT [FK_Messages_ToTable] FOREIGN KEY (CreatorID) REFERENCES Users(UserID), 
+--    CONSTRAINT [FK_Messages_ToTable_1] FOREIGN KEY (ExtraContentID) REFERENCES ExtraContents(ExtraContentID), 
+--    CONSTRAINT [FK_Messages_ToTable_2] FOREIGN KEY (TopicID) REFERENCES Topics(TopicID))
+--END;
 
---Таблица доп. вложений в сообщениях
-IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'ExtraContents' AND xtype = 'U') 
-BEGIN 
-	CREATE TABLE ExtraContents(
-	[ExtraContentID] INT NOT NULL PRIMARY KEY, 
-    [ContentPath] VARCHAR(MAX) NULL)
-END;
+----Таблица доп. вложений в сообщениях
+--IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'ExtraContents' AND xtype = 'U') 
+--BEGIN 
+--	CREATE TABLE ExtraContents(
+--	[ExtraContentID] INT NOT NULL PRIMARY KEY, 
+--    [ContentPath] VARCHAR(MAX) NULL)
+--END;

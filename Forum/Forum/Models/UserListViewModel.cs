@@ -30,7 +30,7 @@
         /// Роль, определяет уровень доступа.
         /// </summary>
         [Display(Name = "Role")]
-        public RoleEditViewModel UserRole { get; set; }
+        public string UserRoleName { get; set; }
         /// <summary>
         /// Заблокирован пользователь?
         /// </summary>

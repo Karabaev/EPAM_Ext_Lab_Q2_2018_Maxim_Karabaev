@@ -64,6 +64,10 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="Scripts\GetAllUsers.sql" />
+    <Build Include="Scripts\Sections.sql" />
+    <Build Include="Scripts\Topics.sql" />
+    <Build Include="Scripts\MessageAttachments.sql" />
+    <Build Include="Scripts\Messages.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
@@ -71,5 +75,8 @@
   <ItemGroup>
     <Build Include="Scripts\Roles.sql" />
     <Build Include="Scripts\Users.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="ForumDataBase.refactorlog" />
   </ItemGroup>
 </Project>

@@ -12,41 +12,44 @@
 
     public class UserController : Controller
     {
-        private readonly IUserRepository Repository;
+        private readonly IUserRepository UserRepository;
+        private readonly IRoleRepository RoleRepository;
 
-        public UserController(IUserRepository repo)
+        public UserController(IUserRepository repo, IRoleRepository repo1)
         {
-            this.Repository = repo;
+            this.UserRepository = repo;
+            this.RoleRepository = repo1;
         }
 
         public ActionResult Index()
         {
-            List<UserListViewModel> users = Mapper.Map<List<User>, List<UserListViewModel>>(this.Repository.GetAllEntities());
+            List<UserListViewModel> users = Mapper.Map<List<User>, List<UserListViewModel>>(this.UserRepository.GetAllEntities());
             return View(users);
         }
 
         public ActionResult Edit(int? id)
         {
-            UserEditViewModel user = Mapper.Map<User, UserEditViewModel>(this.Repository.GetEntity(id));
+            UserEditViewModel user = Mapper.Map<User, UserEditViewModel>(this.UserRepository.GetEntity(id));
 
-            if(user == null)
+            if (user == null)
             {
                 return HttpNotFound();
             }
 
+            ViewBag.UserRoleList = Mapper.Map<List<Role>, List<RoleDropDownViewModel>>(this.RoleRepository.GetAllEntities().ToList());
             return View(user);
         }
 
         //[HttpPost]
         public ActionResult Delete(int? id)
         {
-            this.Repository.RemoveEntity(id);
+            this.UserRepository.RemoveEntity(id);
             return RedirectToAction("Index");
         }
 
         public ActionResult Details(int? id)
         {
-            User user = this.Repository.GetEntity(id);
+            User user = this.UserRepository.GetEntity(id);
             return View(Mapper.Map<User, UserEditViewModel>(user));
         }
     }

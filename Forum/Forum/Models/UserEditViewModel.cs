@@ -3,6 +3,8 @@
     using DAL.Core;
     using System.Web.Mvc;
     using System.ComponentModel.DataAnnotations;
+    using System.Collections.Generic;
+    using DAL.Model.Entities;
 
     public class UserEditViewModel
     {
@@ -27,9 +29,13 @@
         [Display(Name = "Public name")]
         public string PublicName { get; set; }
         /// <summary>
-        /// Роль, определяет уровень доступа.
+        /// ID роли.
         /// </summary>
-        [Display(Name = "Role")]
+        [HiddenInput(DisplayValue = false)]
+        public int? UserRoleID { get; set; }
+        /// <summary>
+        /// Роль.
+        /// </summary>
         public RoleEditViewModel UserRole { get; set; }
         /// <summary>
         /// Заблокирован пользователь?
