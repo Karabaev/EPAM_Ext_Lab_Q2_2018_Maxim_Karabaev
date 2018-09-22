@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DAL.Model.Entities
+﻿namespace DAL.Model.Entities
 {
+    using System;
+
     /// <summary>
     /// Сообщение в теме
     /// </summary>
@@ -14,7 +10,7 @@ namespace DAL.Model.Entities
         /// <summary>
         /// Кто создал 
         /// </summary>
-        public User Creator { get; set; }
+        public User Author { get; set; }
         /// <summary>
         /// Когда создана
         /// </summary>
@@ -23,50 +19,92 @@ namespace DAL.Model.Entities
         /// Тело сообщения
         /// </summary>
         public string Content { get; set; }
+        /// <summary>
+        /// Вложение.
+        /// </summary>
+        public MessageAttacment Attacment { get; set; }
 
-        public MessageAttacment Extra { get; set; }
-
+        /// <summary>
+        /// Возвращает строкое представление объекта.
+        /// </summary>
+        /// <returns>Строковое представление.</returns>
         public override string ToString()
         {
-            return String.Format("ID: {0}, Creator: {1}, Date/time of create: {2}", ID, Creator, CreationDate);
+            return string.Format("ID: {0}, Creator: {1}, Date/time of create: {2}", this.ID, this.Author, this.CreationDate);
         }
+
+        /// <summary>
+        /// Сравнивает объект с другим.
+        /// </summary>
+        /// <param name="obj">Объект для сравнения.</param>
+        /// <returns>true если все свойства сопадают, иначе false.</returns>
         public override bool Equals(object obj)
         {
-            Message other = obj as Message;
-            if (other == null) return false;
-            return (ID == other.ID) && 
-                (Creator == other.Creator) && 
-                (CreationDate == other.CreationDate) && 
-                (Content == other.Content) && 
-                (Extra == other.Extra);
+            if (!(obj is Message other))
+            {
+                return false;
+            }
+
+            return ID == other.ID && this.LikeAs(other);
         }
+
+        /// <summary>
+        /// Вычисляет хэш код объекта.
+        /// </summary>
+        /// <returns>Хэш код объекта.</returns>
         public override int GetHashCode()
         {
             int result = 0;
+
             try
             {
-                result = ID.GetHashCode() + Creator.GetHashCode() + CreationDate.GetHashCode() + Content.GetHashCode() + Extra.GetHashCode();
+                result = this.ID.GetHashCode() +
+                    this.Author.GetHashCode() +
+                    this.CreationDate.GetHashCode() +
+                    this.Content.GetHashCode() + 
+                    this.Attacment.GetHashCode();
             }
-            catch(StackOverflowException ex)
+            catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                throw ex;
             }
+
             return result;
         }
 
+        /// <summary>
+        /// Переинициализация свойств объекта свойств другого объекта.
+        /// </summary>
+        /// <param name="other"></param>
         public override void Reinitialization(Entity other)
         {
-            Message message = other as Message;
-            if (message == null) return;
-            Creator = message.Creator;
-            CreationDate = message.CreationDate;
-            Content = message.Content;
-            Extra = message.Extra;
+            if (!(other is Message message))
+            {
+                return;
+            }
+
+            this.Author.Equals(message.Author);
+            this.CreationDate = message.CreationDate;
+            this.Content = message.Content;
+            this.Attacment = message.Attacment;
         }
 
+        /// <summary>
+        /// Сравнивает объект с другим (кроме идентификатора). 
+        /// </summary>
+        /// <param name="entity">Другой объект.</param>
+        /// <returns>true если свойства, кроме идентификатора сопадают, иначе false.</returns>
         public override bool LikeAs(Entity entity)
         {
-            throw new NotImplementedException();
+            if (!(entity is Message other))
+            {
+                return false;
+            }
+
+            return this.Author.Equals(other.Author) &&
+                this.CreationDate == other.CreationDate &&
+                this.Content == other.Content &&
+                this.Attacment == other.Attacment;
         }
     }
 }

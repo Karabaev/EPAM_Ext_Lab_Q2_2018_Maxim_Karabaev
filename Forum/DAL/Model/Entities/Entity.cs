@@ -10,6 +10,6 @@
         public abstract override bool Equals(object obj);
         public abstract bool LikeAs(Entity entity);
         public abstract override int GetHashCode();
-        public abstract void Reinitialization(Entity other); // надо будет сделать возврщаемое значение bool, чтоб отслеживать ошибки в методе //todo pn помечай через todo, так проще отслеживать свои заметки
+        public abstract void Reinitialization(Entity other);
     }
 }

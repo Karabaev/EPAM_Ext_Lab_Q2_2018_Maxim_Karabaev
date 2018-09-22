@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DAL.Model.Entities
+﻿namespace DAL.Model.Entities
 {
+    using System;
+
     /// <summary>
     /// Раздел форума
     /// </summary>
@@ -23,48 +19,76 @@ namespace DAL.Model.Entities
         /// Ссылка на раздел
         /// </summary>
         public string Link { get; set; }
-        /// <summary>
-        /// Список тем в разделе
-        /// </summary>
-        public List<Topic> TopicList { get; set; }
 
+        /// <summary>
+        /// Сравнивает объект с другим.
+        /// </summary>
+        /// <param name="obj">Объект для сравнения.</param>
+        /// <returns>true если все свойства сопадают, иначе false.</returns>
         public override bool Equals(object obj)
         {
-            Section other = obj as Section;
-            if (other == null) return false;
-            return (ID == other.ID) &&
-                (Name == other.Name) &&
-                (Description == other.Description) &&
-                (Link == other.Link) &&
-                TopicList.Equals(other.TopicList);
+            if (!(obj is Section other))
+            {
+                return false;
+            }
+
+            return (ID == other.ID) && this.LikeAs(other);
         }
+
+        /// <summary>
+        /// Вычисляет хэш код объекта.
+        /// </summary>
+        /// <returns>Хэш код объекта.</returns>
         public override int GetHashCode()
         {
             int result = 0;
+
             try
             {
-                result = ID.GetHashCode() + Name.GetHashCode() + Description.GetHashCode() + Link.GetHashCode() + TopicList.GetHashCode();
+                result =    this.ID.GetHashCode() +
+                            this.Name.GetHashCode() +
+                            this.Description.GetHashCode() +
+                            this.Link.GetHashCode();
             }
-            catch (StackOverflowException ex)
+            catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                throw ex;
             }
+
             return result;
         }
 
+        /// <summary>
+        /// Сравнивает объект с другим (кроме идентификатора). 
+        /// </summary>
+        /// <param name="entity">Другой объект.</param>
+        /// <returns>true если свойства, кроме идентификатора сопадают, иначе false.</returns>
         public override bool LikeAs(Entity entity)
         {
-            throw new NotImplementedException();
+            if (!(entity is Section other))
+            {
+                return false;
+            }
+
+            return  this.Name == other.Name &&
+                    this.Description == other.Description &&
+                    this.Link == other.Link;
         }
 
+        /// <summary>
+        /// Переинициализация свойств объекта свойств другого объекта.
+        /// </summary>
+        /// <param name="other"></param>
         public override void Reinitialization(Entity other)
         {
-            Section newSection = other as Section;
-            if (newSection == null) return;
-            Name = newSection.Name;
-            Description = newSection.Description;
-            Link = newSection.Link;
-            TopicList = newSection.TopicList;
+            if (!(other is Section newSection))
+            {
+                return;
+            }
+
+            this.Name = newSection.Name;
+            this.Description = newSection.Description;
+            this.Link = newSection.Link;
         }
     }
 }

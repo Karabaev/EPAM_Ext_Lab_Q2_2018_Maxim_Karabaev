@@ -44,7 +44,7 @@
     <Compile Include="Core\FormattedDate.cs" />
     <Compile Include="Core\QueryBuilder.cs" />
     <Compile Include="Model\Entities\Entity.cs" />
-    <Compile Include="Model\Entities\ExtraContent.cs" />
+    <Compile Include="Model\Entities\MessageAttacment.cs" />
     <Compile Include="Model\Entities\Message.cs" />
     <Compile Include="Model\Repository\Base\BaseRepository.cs" />
     <Compile Include="Model\Repository\Base\IBaseRepository.cs" />

@@ -84,19 +84,17 @@
         /// <returns>true если объекты подобны, иначе false.</returns>
         public override bool LikeAs(Entity entity)
         {
-            User other = entity as User;
-
-            if(other == null)
+            if (!(entity is User other))
             {
                 return false;
             }
 
-            return  (this.Login == other.Login) &&
-                    (this.PasswordHash == other.PasswordHash) &&
+            return  this.Login == other.Login &&
+                    this.PasswordHash == other.PasswordHash &&
                     this.UserRole.LikeAs(other.UserRole) &&
-                    (this.IsBanned == other.IsBanned) &&
-                    (this.PublicName == other.PublicName) &&
-                    (this.Email == other.Email);
+                    this.IsBanned == other.IsBanned &&
+                    this.PublicName == other.PublicName &&
+                    this.Email == other.Email;
         }
 
         /// <summary>
@@ -106,14 +104,16 @@
         public override int GetHashCode()
         {
             int result = 0;
+
             try
             {
                 result += ID.GetHashCode() + Login.GetHashCode() + PasswordHash.GetHashCode() + PublicName.GetHashCode() + UserRole.GetHashCode() + IsBanned.GetHashCode();
             }
-            catch(StackOverflowException ex)
+            catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                throw ex;
             }         
+
             return result;
         }
 
