@@ -5,7 +5,6 @@
     using System.Web.Mvc;
     using Ninject;
     using DAL.Model.Repository;
-    using DAL.Model.Service;
 
     public class NinjectDependencyResolver : IDependencyResolver
     {
@@ -29,7 +28,6 @@
 
         private void AddBindings()
         {
-            this.kernel.Bind<IUserService>().To<UserService>();
             this.kernel.Bind<IUserRepository>().To<UserRepository>();
             this.kernel.Bind<IRoleRepository>().To<RoleRepository>();
         }

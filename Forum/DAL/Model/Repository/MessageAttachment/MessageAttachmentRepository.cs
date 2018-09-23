@@ -155,7 +155,7 @@
         /// </summary>
         /// <param name="count"></param>
         /// <returns></returns>
-        public override List<Section> GetAllEntities(int count)
+        public override List<MessageAttachment> GetAllEntities(int count)
         {
             throw new NotImplementedException();
         }

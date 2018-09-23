@@ -184,7 +184,8 @@
                                                             string.Format("PublicName = '{0}'", entity.PublicName),
                                                             string.Format("UserRole = {0}", entity.UserRole.ID),
                                                             string.Format("IsBanned = '{0}'", entity.IsBanned),
-                                                            string.Format("Email = '{0}'", entity.Email));
+                                                            string.Format("Email = '{0}'", entity.Email),
+                                                            string.Format("RegistrationDate = '{0}'", entity.RegistrationDate));
                 base.command.CommandText = QueryBuilder.GetUpdateRecordCommand(this.TableName,
                                                                                 string.Format("ID = {0}", entity.ID),
                                                                                 fieldsAndValues);

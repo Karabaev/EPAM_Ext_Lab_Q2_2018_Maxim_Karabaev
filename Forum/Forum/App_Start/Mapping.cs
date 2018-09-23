@@ -11,7 +11,7 @@
         {
             System.Action<IMapperConfigurationExpression> config = cfg => cfg.CreateMap<Role, RoleEditViewModel>();
             config += cfg => cfg.CreateMap<User, UserEditViewModel>();
-            config += cfg => cfg.CreateMap<User, UserListViewModel>().ForMember("UserRoleName", s => s.MapFrom(c => c.UserRole.Name));
+            config += cfg => cfg.CreateMap<User, UserListViewModel>();//.ForMember("RegistrationDate", s => s.MapFrom(c => c.RegistrationDate));
             config += cfg => cfg.CreateMap<Role, RoleDropDownViewModel>();
             Mapper.Initialize(config);
         }

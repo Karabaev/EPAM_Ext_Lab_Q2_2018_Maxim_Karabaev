@@ -15,7 +15,11 @@
         /// <summary>
         /// Инициализирует объект в памяти.
         /// </summary>
-        public MessageRepository() { }
+        public MessageRepository()
+        {
+            this.userRepository = new UserRepository();
+            this.topicRepository = new TopicRepository();
+        }
 
         /// <summary>
         /// Название таблицы.

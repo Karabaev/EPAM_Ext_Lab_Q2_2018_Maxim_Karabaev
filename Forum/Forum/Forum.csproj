@@ -128,7 +128,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\RoleDropDownViewModel.cs" />
     <Compile Include="Models\RoleEditViewModel.cs" />
     <Compile Include="Models\UserEditViewModel.cs" />
     <Compile Include="Models\UserListViewModel.cs" />
@@ -146,6 +145,7 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Details.cshtml" />
+    <Content Include="Views\User\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,5 +1,6 @@
 ﻿namespace Forum.Models
 {
+    using System;
     using DAL.Core;
     using System.Web.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -29,28 +30,22 @@
         [Display(Name = "Public name")]
         public string PublicName { get; set; }
         /// <summary>
-        /// ID роли.
-        /// </summary>
-        [HiddenInput(DisplayValue = false)]
-        public int? UserRoleID { get; set; }
-        /// <summary>
         /// Роль.
         /// </summary>
-        public RoleEditViewModel UserRole { get; set; }
+        public int UserRoleID { get; set; }
         /// <summary>
         /// Заблокирован пользователь?
         /// </summary>
         [Display(Name = "Banned")]
         public bool? IsBanned { get; set; }
         /// <summary>
-        /// Дата регистрации.
-        /// </summary>
-        [HiddenInput(DisplayValue = false)]
-        public FormattedDate RegistrationDate { get; set; }
-        /// <summary>
         /// Почта.
         /// </summary>
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+     //   [HiddenInput(DisplayValue = false)]
+        public DateTime RegistrationDate { get; set; }
+        public Role UserRole { get; set; }
     }
 }

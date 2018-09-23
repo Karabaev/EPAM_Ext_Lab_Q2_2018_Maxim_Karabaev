@@ -69,7 +69,7 @@
                 return false;
             }
 
-            return this.ContentLink == other.ContentLink && this.MessageID == other.MessageID;
+            return this.ContentLink == other.ContentLink && this.ID == other.ID;
         }
 
         /// <summary>

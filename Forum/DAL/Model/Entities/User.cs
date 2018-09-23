@@ -31,7 +31,7 @@
         /// <summary>
         /// Дата регистрации.
         /// </summary>
-        public FormattedDate RegistrationDate { get; set; }
+        public DateTime RegistrationDate { get; set; }
         /// <summary>
         /// Почта.
         /// </summary>
@@ -48,7 +48,7 @@
         /// <param name="isBanned">Статус блокировки пользователя.</param>
         /// <param name="regDate">Дата регистрации пользователя.</param>
         /// <param name="email">Электронная почта пользователя.</param>
-        public User(int id, string login, string pass, string publicName, Role role, bool isBanned, FormattedDate regDate, string email)
+        public User(int id, string login, string pass, string publicName, Role role, bool isBanned, DateTime regDate, string email)
         {
             base.ID = id;
             this.Login = login;
@@ -59,6 +59,11 @@
             this.RegistrationDate = regDate;
             this.Email = email;
         }
+
+        /// <summary>
+        /// Инициализрует объект в памяти.
+        /// </summary>
+        public User() { }
 
         /// <summary>
         /// Сравнивает объект с другим.
